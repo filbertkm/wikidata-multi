@@ -1,0 +1,20 @@
+#!/bin/bash																	    
+DBLIST=`<$1`																	   
+BRANCH=$2																		    
+shift																			
+shift																			
+																				
+for x in $DBLIST; do																
+    mysql -u root -e "CREATE DATABASE IF NOT EXISTS $x"
+
+    if [ $(mysql -N -s -u root -e \
+	   "select count(*) from information_schema.tables where \
+	    table_schema='$x' and table_name='revision';") -eq 0 ]; then
+	
+		echo "installing mediawiki schema\n"
+
+	    mysql -u root -D $x < /srv/mediawiki/$BRANCH/maintenance/tables.sql
+    fi
+
+    /usr/bin/php /srv/mediawiki/$BRANCH/maintenance/update.php --wiki $DBLIST
+done   

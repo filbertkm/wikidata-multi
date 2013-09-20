@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+	ServerName wikidata-test-enwikivoyage.wikimedia.de
+
+    DocumentRoot /srv/mediawiki/master/
+
+    # MediaWiki!
+    Alias /wiki /srv/mediawiki/master/index.php
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride all
+    </Directory>
+
+    <Directory /srv/mediawiki/master/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride all
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ErrorLog /var/log/apache2/error.log
+    LogLevel debug
+    CustomLog /var/log/apache2/access.log combined
+
+    ServerSignature Off
+</VirtualHost>
