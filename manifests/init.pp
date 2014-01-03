@@ -8,7 +8,7 @@ class wikidata_multi() {
 
     require role::labs-mysql-server, webserver::php5-mysql
 
-    package { [ 'imagemagick', 'php-apc', 'memcached' ] :
+    package { [ 'imagemagick', 'php5-cli', 'php-apc', 'memcached' ] :
         ensure => latest,
     }
 
@@ -36,19 +36,30 @@ class wikidata_multi() {
             group => 'root',
             mode => 0755,
             ensure => directory;
+    }
 
-        "/srv/static/Wikidata-logo-demorepo.png":
+    define logofiles {
+        file { "/srv/static/${title}":
             ensure => present,
-            source => 'puppet:///modules/wikidata_multi/static/Wikidata-logo-demorepo.png';
+            source => "puppet:///modules/wikidata_multi/static/${title}";
+        }
+    }
 
-        "/srv/static/wikivoyage-logo.png":
+    $logos = ['Wikidata-logo-demorepo.png', 'wikivoyage-logo.png', 'wikipedia-logo.png']
+    logofiles { $logos: }
+
+    $configs = ['CommonSettings.php', 'DebugSettings.php', 'SiteSettings.php', 'ExtensionSettings.php']
+
+    define configfiles {
+        file { "/srv/config/${title}":
             ensure => present,
-            source => 'puppet:///modules/wikidata_multi/static/wikivoyage-logo.png';
+            source => "puppet:///modules/wikidata_multi/config/${title}";
+        }
+    }
 
-        "/srv/static/wikipedia-logo.png":
-            ensure => present,
-            source => 'puppet:///modules/wikidata_multi/static/wikipedia-logo.png';
+    configfiles { $configs: }
 
+    file {
         "/srv/static/mainpage.xml":
             ensure => present,
             source => 'puppet:///modules/wikidata_multi/static/mainpage.xml';
@@ -56,22 +67,6 @@ class wikidata_multi() {
         "/srv/config/all.dblist":
             ensure => present,
             source => 'puppet:///modules/wikidata_multi/config/all.dblist';
-
-        "/srv/config/CommonSettings.php":
-            ensure => present,
-            source => 'puppet:///modules/wikidata_multi/config/CommonSettings.php';
-
-        "/srv/config/DebugSettings.php":
-            ensure => present,
-            source => 'puppet:///modules/wikidata_multi/config/DebugSettings.php';
-
-        "/srv/config/SiteSettings.php":
-            ensure => present,
-            source => 'puppet:///modules/wikidata_multi/config/SiteSettings.php';
-
-        "/srv/config/ExtensionSettings.php":
-            ensure => present,
-            source => 'puppet:///modules/wikidata_multi/config/ExtensionSettings.php';
 
         "/usr/local/bin/dbsetup":
             ensure => present,
@@ -86,13 +81,6 @@ class wikidata_multi() {
             group => 'root',
             mode => 0755,
             source => 'puppet:///modules/wikidata_multi/scripts/git-pull-all';
-
-        "/home/root/.my.cnf":
-            ensure => present,
-            owner => 'root',
-            group => 'root',
-            mode => 0700,
-            source => 'puppet:///modules/wikidata_multi/mysql/my.cnf';
 
         "/etc/apache2/sites-available/enwiki":
             ensure => present,
@@ -132,9 +120,9 @@ class wikidata_multi() {
         origin => 'https://gerrit.wikimedia.org/r/p/operations/mediawiki-config.git';
     }
 
-    mw-extension { [ 'AbuseFilter', 'AccountAudit', 'ActiveAbstract', 'AntiBot', 'AntiSpoof', 'ApiSandbox', 'ArticleFeedback', 'ArticleFeedbackv5', 'Ask', 'AssertEdit', 'Babel', 'Bootstrap', 'Calendar', 'Campaigns', 'CategoryTree', 'CentralAuth', 'CentralNotice', 'CharInsert', 'CheckUser', 'Cite', 'cldr', 'ClickTracking', 'ClientSide', 'CodeEditor', 'CodeReview', 'Collection', 'CommunityApplications', 'CommunityHiring', 'CommunityVoice', 'ConfirmEdit', 'ContactPage', 'ContactPageFundraiser', 'ContributionReporting', 'ContributionTracking', 'CoreEvents', 'CreditsSource', 'CustomData', 'CustomUserSignup', 'DataTypes', 'DataValues', 'Diff', 'DisableAccount', 'Disambiguator', 'DismissableSiteNotice', 'DonationInterface', 'DoubleWiki', 'DynamicSidebar', 'Echo', 'EditPageTracking', 'EducationProgram', 'EmailCapture', 'EventLogging', 'ExpandTemplates', 'ExtensionDistributor', 'FeaturedFeeds', 'FlaggedRevs', 'FormPreloadPostCache', 'FundraiserLandingPage', 'Gadgets', 'GeoCrumbs', 'GeoData', 'GettingStarted', 'GlobalBlocking', 'GlobalUsage', 'GoogleNewsSitemap', 'GuidedTour', 'ImageMap', 'InputBox', 'Insider', 'intersection', 'Interwiki', 'LabeledSectionTransclusion', 'LandingCheck', 'LastModified', 'LdapAuthentication', 'LiquidThreads', 'Listings', 'LocalisationUpdate', 'MapSources', 'MarkAsHelpful', 'Math', 'MobileFrontend', 'MoodBar', 'MwEmbedSupport', 'MWSearch', 'Narayam', 'NavigationTiming', 'NewUserMessage', 'normal', 'Nostalgia', 'Nuke', 'OAI', 'OATHAuth', 'OggHandler', 'OpenSearchXml', 'OpenStackManager', 'Oversight', 'PagedTiffHandler', 'PageImages', 'PageTriage', 'ParserFunctions', 'Parsoid', 'PdfHandler', 'Poem', 'PoolCounter', 'PostEdit', 'ProofreadPage', 'Quiz', 'RandomRootPage', 'ReaderFeedback', 'RelatedArticles', 'RelatedSites', 'Renameuser', 'RSS', 'Score', 'Scribunto', 'SearchExtraNS', 'SecurePoll', 'SemanticForms', 'SemanticMediaWiki', 'SemanticResultFormats', 'Serialization', 'ShortUrl', 'SimpleAntiSpam', 'SiteMatrix', 'SkinPerPage', 'skins', 'Solarium', 'SpamBlacklist', 'StrategyWiki', 'SubPageList3', 'SubpageSortkey', 'SwiftCloudFiles', 'SyntaxHighlight_GeSHi', 'TemplateData', 'TemplateSandbox', 'Thanks', 'TimedMediaHandler', 'timeline', 'TitleBlacklist', 'TitleKey', 'TocTree', 'TorBlock', 'Translate', 'TranslationNotifications', 'TrustedXFF', 'UnicodeConverter', 'UniversalLanguageSelector', 'UploadBlacklist', 'UploadWizard', 'UserDailyContribs', 'UserMerge', 'UserThrottle', 'Validator', 'Vector', 'VipsScaler', 'VisualEditor', 'WebFonts', 'Wikibase', 'WikibaseDataModel', 'WikibaseQuery', 'WikibaseQueryEngine', 'WikiEditor', 'wikihiero', 'WikiLove', 'WikimediaIncubator', 'WikimediaMaintenance', 'WikimediaMessages', 'WikimediaShopLink', 'ZeroRatedMobileAccess' ]:
+    mw-extension { [ 'AbuseFilter', 'AccountAudit', 'ActiveAbstract', 'AntiBot', 'AntiSpoof', 'ApiSandbox', 'ArticleFeedback', 'ArticleFeedbackv5', 'AssertEdit', 'Babel', 'Bootstrap', 'Calendar', 'Campaigns', 'CategoryTree', 'CentralAuth', 'CentralNotice', 'CharInsert', 'CheckUser', 'Cite', 'cldr', 'ClickTracking', 'ClientSide', 'CodeEditor', 'CodeReview', 'Collection', 'CommunityApplications', 'CommunityHiring', 'CommunityVoice', 'ConfirmEdit', 'ContactPage', 'ContactPageFundraiser', 'ContributionReporting', 'ContributionTracking', 'CoreEvents', 'CreditsSource', 'CustomData', 'CustomUserSignup', 'DataTypes', 'DataValues', 'Diff', 'DisableAccount', 'Disambiguator', 'DismissableSiteNotice', 'DonationInterface', 'DoubleWiki', 'DynamicSidebar', 'Echo', 'EditPageTracking', 'EducationProgram', 'EmailCapture', 'EventLogging', 'ExpandTemplates', 'ExtensionDistributor', 'FeaturedFeeds', 'FlaggedRevs', 'FormPreloadPostCache', 'FundraiserLandingPage', 'Gadgets', 'GeoCrumbs', 'GeoData', 'GettingStarted', 'GlobalBlocking', 'GlobalUsage', 'GoogleNewsSitemap', 'GuidedTour', 'ImageMap', 'InputBox', 'Insider', 'intersection', 'Interwiki', 'LabeledSectionTransclusion', 'LandingCheck', 'LastModified', 'LdapAuthentication', 'LiquidThreads', 'Listings', 'LocalisationUpdate', 'MapSources', 'MarkAsHelpful', 'Math', 'MobileFrontend', 'MoodBar', 'MwEmbedSupport', 'MWSearch', 'Narayam', 'NavigationTiming', 'NewUserMessage', 'normal', 'Nostalgia', 'Nuke', 'OAI', 'OATHAuth', 'OggHandler', 'OpenSearchXml', 'OpenStackManager', 'Oversight', 'PagedTiffHandler', 'PageImages', 'PageTriage', 'ParserFunctions', 'Parsoid', 'PdfHandler', 'Poem', 'PoolCounter', 'PostEdit', 'ProofreadPage', 'Quiz', 'RandomRootPage', 'ReaderFeedback', 'RelatedArticles', 'RelatedSites', 'Renameuser', 'RSS', 'Score', 'Scribunto', 'SearchExtraNS', 'SecurePoll', 'SemanticForms', 'SemanticMediaWiki', 'SemanticResultFormats', 'ShortUrl', 'SimpleAntiSpam', 'SiteMatrix', 'SkinPerPage', 'skins', 'Solarium', 'SpamBlacklist', 'StrategyWiki', 'SubPageList3', 'SubpageSortkey', 'SwiftCloudFiles', 'SyntaxHighlight_GeSHi', 'TemplateData', 'TemplateSandbox', 'Thanks', 'TimedMediaHandler', 'timeline', 'TitleBlacklist', 'TitleKey', 'TocTree', 'TorBlock', 'Translate', 'TranslationNotifications', 'TrustedXFF', 'UnicodeConverter', 'UniversalLanguageSelector', 'UploadBlacklist', 'UploadWizard', 'UserDailyContribs', 'UserMerge', 'UserThrottle', 'Validator', 'Vector', 'VipsScaler', 'VisualEditor', 'WebFonts', 'Wikibase', 'WikibaseDataModel', 'WikibaseQuery', 'WikibaseQueryEngine', 'WikiEditor', 'wikihiero', 'WikiLove', 'WikimediaIncubator', 'WikimediaMaintenance', 'WikimediaMessages', 'WikimediaShopLink', 'ZeroRatedMobileAccess' ]:
         ensure => $ensure,
-        }
+    }
 
     apache_site { 'enwiki':
         name => 'enwiki',
