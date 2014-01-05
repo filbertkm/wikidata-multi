@@ -16,5 +16,11 @@ for x in $DBLIST; do
 	    mysql -u root -D $x < /srv/mediawiki/$BRANCH/maintenance/tables.sql
     fi
 
-    /usr/bin/php /srv/mediawiki/$BRANCH/maintenance/update.php --wiki $DBLIST
+    /usr/bin/php /srv/mediawiki/$BRANCH/maintenance/update.php --wiki $x
+
+    if [ $(mysql -N -s -u root -e \
+	   "select count(*) from sites") -eq 0]; then
+               /usr/bin/php /srv/mediawiki/$BRANCH/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki $x
+    fi
+
 done

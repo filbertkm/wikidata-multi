@@ -6,17 +6,20 @@ $wgConf->settings = array(
         'wgSitename' => array(
                 'wikidatawiki' => 'Test Wikidata',
                 'enwiki' => 'Test Wikipedia',
-		'enwikivoyage' => 'Test Wikivoyage'
+		'enwikivoyage' => 'Test Wikivoyage',
+		'enwikisource' => 'Test Wikisource'
 	),
  	'wgServer' => array(
-		'wikidatawiki' => 'http://wikidata-test-multi.instance-proxy.wmflabs.org',
-		'enwiki' => 'http://wikidata-test-client.wikimedia.de',
-		'dewiki' => 'http://wikidata-test-dewiki.wikimedia.de'
+		'wikidatawiki' => 'http://wikidata-dev-repo.wmflabs.org',
+		'enwiki' => 'http://wikidata-dev-enwiki.wmflabs.org',
+		'enwikivoyage' => 'http://wikidata-dev-enwikivoyage.wmflabs.org',
+		'enwikivoyage' => 'http://wikidata-dev-enwikisource.wmflabs.org'
 	),
 	'wgLogo' => array(
 		'wikidatawiki' => '/static/Wikidata-logo-demorepo.png',
 		'enwiki' => '/static/wikipedia-logo.png',
-		'enwikivoyage' => '/static/wikivoyage-logo.png'
+		'enwikivoyage' => '/static/wikivoyage-logo.png',
+		'enwikisource' => '/static/wikisource-logo.png'
 	),
 	'wgLanguageCode' => array(
 		'default' => 'en',
@@ -29,7 +32,8 @@ $wgConf->settings = array(
 		'default' => true
 	),
 	'wmgUseWikibaseRepo' => array(
-		'default' => false
+		'default' => false,
+		'wikidatawiki' => true
 	),
 	'wmgUseWikibaseClient' => array(
 		'default' => true,

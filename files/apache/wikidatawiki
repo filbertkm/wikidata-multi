@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-    ServerName wikidata-dev-enwiki.wikimedia.de
+    ServerName wikidata-dev-repo.wmflabs.org
 
     DocumentRoot /srv/mediawiki/master/
 
