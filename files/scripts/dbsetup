@@ -23,4 +23,9 @@ for x in $DBLIST; do
                /usr/bin/php /srv/mediawiki/$BRANCH/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki $x
     fi
 
+    if [ $(mysql -N -s -u root -e \
+           "select count(*) from interwiki") -eq 0]; then
+               /usr/bin/php /srv/mediawiki/$BRANCH/extensions/Wikibase/client/maintenance/populateInterwiki.php --wiki $x
+    fi    
+
 done
