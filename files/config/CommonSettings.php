@@ -68,3 +68,4 @@ if ( $wmgDebugMode ) {
 }
 
 require_once ( "/srv/config/ExtensionSettings.php" );
+require_once ( "/srv/config/Wikibase.php" );

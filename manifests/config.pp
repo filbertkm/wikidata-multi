@@ -8,7 +8,7 @@ class wikidata_multi::config() {
             ensure => directory;
     }
 
-    $configs = ['CommonSettings.php', 'DebugSettings.php', 'SiteSettings.php', 'ExtensionSettings.php', 'flaggedrevs.php']
+    $configs = ['CommonSettings.php', 'DebugSettings.php', 'SiteSettings.php', 'ExtensionSettings.php', 'flaggedrevs.php', 'Wikibase.php']
 
     define configfiles {
         file { "/srv/config/${title}":
