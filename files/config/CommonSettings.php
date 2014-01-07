@@ -61,6 +61,8 @@ $wgDiff3 = "/usr/bin/diff3";
 $wgGroupPermissions['*']['createaccount'] = false;                                                  
 $wgGroupPermissions['user']['createaccount'] = true;
 
+$wgDeprecationReleaseLimit = '1.22';
+
 if ( $wmgDebugMode ) {
 	require_once ( "/srv/config/DebugSettings.php" );
 }

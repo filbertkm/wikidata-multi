@@ -16,6 +16,8 @@ class wikidata_multi::mediawiki() {
         ensure    => present,
         directory => '/srv/mediawiki/master',
         branch => 'master',
+        owner => 'www-data',
+        group => 'www-data',
         timeout => 1800,
         origin => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git';
     }
