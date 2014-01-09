@@ -2,7 +2,7 @@
 $wgDBname = 'wikidatawiki';
 
 $wmgUseWikibaseExperimental = true;
-$wmgUseWikibaseBuild = false;
+$wmgUseWikibaseBuild = true;
 $wmgSingleInstance = false;
 $wmgUseWikibaseComposer = false;
 
