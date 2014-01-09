@@ -87,8 +87,8 @@ if ( $wmgUseWikibaseRepo ) {
 																									
 	$wgWBRepoSettings['siteLinkGroups'] = array(													
 		'wikipedia',																				
-		'wikivoyage',																			   
 		'wikisource',
+		'wikivoyage',																			   
 		'commons'																				   
 	); 
 
