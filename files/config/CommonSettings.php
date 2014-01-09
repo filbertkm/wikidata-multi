@@ -5,8 +5,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 require_once ( __DIR__ . '/SiteSettings.php' );
 
-$wgScriptPath       = "";                                                                           
-$wgArticlePath      = "/wiki/$1";                                                                   
+$wgScriptPath	   = "";																		   
+$wgArticlePath	  = "/wiki/$1";																   
 $wgScriptExtension  = ".php";   
 
 $wgStylePath = "$wgScriptPath/skins";
@@ -29,7 +29,7 @@ $wgDBprefix = "";
 $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $wgDBmysql5 = false;
 
-$wgMainCacheType    = CACHE_MEMCACHED;                                                              
+$wgMainCacheType	= CACHE_MEMCACHED;															  
 $wgMemCachedServers = array( '127.0.0.1:11211' ); 
 
 $wgUseGzip = true;
@@ -53,12 +53,23 @@ $wgVectorUseIconWatch = true;
 
 $wgRightsPage = ""; # Set to the title of a wiki page that describes your license/copyright
 $wgRightsIcon = "";
-$wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';                                         
+$wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';										 
 $wgRightsText = 'Creative Commons Attribution-Share Alike 3.0 Unported';  
+$wgCopyrightIcon = '<a href="//wikimediafoundation.org/"><img src="//bits.wikimedia.org/images/wikimedia-button.png" width="88" height="31" alt="Wikimedia Foundation"/></a>';
+
+if ( $wgDBname === 'wikidatawiki' ) {
+	$wgHooks['SkinCopyrightFooter'][] = function( $title, $type, &$msg, &$link, &$forContent ) {	
+		if ( $title->getNamespace() === NS_MAIN ) {													 
+			$msg = 'Creative Commons Public Domain 1.0';												
+			$link = '//creativecommons.org/publicdomain/zero/1.0/';									 
+		}																							   
+		return true;																					
+	};																								  
+}	
 
 $wgDiff3 = "/usr/bin/diff3";
 
-$wgGroupPermissions['*']['createaccount'] = false;                                                  
+$wgGroupPermissions['*']['createaccount'] = false;												  
 $wgGroupPermissions['user']['createaccount'] = true;
 
 $wgDeprecationReleaseLimit = '1.22';
