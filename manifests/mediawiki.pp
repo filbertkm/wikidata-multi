@@ -13,7 +13,7 @@ class wikidata_multi::mediawiki() {
     }
 
     git::clone { 'mediawiki':
-        ensure    => present,
+        ensure    => latest,
         directory => '/srv/mediawiki/master',
         branch => 'master',
         owner => 'www-data',
