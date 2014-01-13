@@ -13,16 +13,22 @@ class wikidata_multi::setup() {
             mode => 0755,
             ensure => directory;
 
-        "/srv/static/mainpage.xml":
+        "/srv/static/mainpage.txt":
             ensure => present,
-            source => 'puppet:///modules/wikidata_multi/static/mainpage.xml';
+            source => 'puppet:///modules/wikidata_multi/static/mainpage.txt';
 
-        "/srv/static/pagelist.txt":
-            ensure => present,
-            owner => 'mwdeploy',
+		"/srv/scripts":
+			owner => 'mwdeploy',
+			group => 'www-data',
+			mode => 0755,
+			ensure => directory;
+
+        "/srv/scripts/mainpage.php":
+			ensure => present,
+			owner => 'mwdeploy',
             group => 'www-data',
             mode => 0755,
-            source => 'puppet:///modules/wikidata_multi/config/pagelist.txt';
+            source => 'puppet:///modules/wikidata_multi/scripts/mainpage.php';
 
         "/srv/static/simple-elements.xml":
             ensure => present,
@@ -33,17 +39,10 @@ class wikidata_multi::setup() {
     }
 
     define setupmainpage {
-        exec { "delete_mainpage_${title}":
-            require => [ File["/srv/static/pagelist.txt"], Git::Clone["mwextensions"] ],
-            cwd => "/srv/mediawiki/master",
-            command => "/usr/bin/php maintenance/deleteBatch.php --wiki ${title} --listfile /srv/static/pagelist.txt",
-            logoutput => "on_failure",
-        }
-
-        exec { "import_mainpage_${title}":
-            require => [ File["/srv/static/mainpage.xml"], Exec["delete_mainpage_${title}"] ],
-            cwd => "/srv/mediawiki/master",
-            command => "/usr/bin/php maintenance/importDump.php --wiki ${title} /srv/static/mainpage.xml",
+        exec { "create_mainpage_${title}":
+            require => [ File["/srv/static/mainpage.txt"], File["/srv/scripts/mainpage.php"], Git::Clone["mwextensions"] ],
+            cwd => "/srv/scripts",
+            command => "/usr/bin/php mainpage.php --wiki ${title}",
             logoutput => "on_failure",
         }
     }
