@@ -41,7 +41,9 @@ $wgUseInstantCommons = true;
 $wgShellLocale = "en_US.utf8";
 #$wgHashedUploadDirectory = false;
 
-$wgCacheDirectory = '/tmp/mw-cache/master';
+$wgCacheDirectory = '/tmp/mw-cache-master';
+$wgLocalisationCacheConf['storeDirectory'] = "$IP/cache/l10n";                                          
+$wgLocalisationCacheConf['manualRecache'] = true;   
 
 $wgLanguageCode = "en";
 
@@ -80,3 +82,7 @@ if ( $wmgDebugMode ) {
 
 require_once ( "/srv/config/ExtensionSettings.php" );
 require_once ( "/srv/config/Wikibase.php" );
+
+$wgExtensionEntryPointListFiles[] = "/srv/mediawiki-config/wmf-config/extension-list-wikidata-labs";
+
+require_once( "/srv/config/ExtensionMessages.php" );
