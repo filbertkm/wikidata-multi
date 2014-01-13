@@ -6,8 +6,8 @@ class wikidata_multi::mwextensions() {
         ensure    => latest,
         directory => '/srv/mediawiki/extensions',
         branch => 'master',
-		owner => 'mwdeploy',
-		group => 'www-data',
+        owner => 'mwdeploy',
+        group => 'www-data',
         timeout => 1800,
         require => git::clone["mediawiki"],
         origin => 'https://gerrit.wikimedia.org/r/p/mediawiki/extensions.git';
