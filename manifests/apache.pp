@@ -14,7 +14,7 @@ class wikidata_multi::apache() {
         }
     }
 
-    wikidata_multi::apachesite { ['enwiki', 'enwikivoyage', 'enwikisource', 'wikidatawiki']: }
+    wikidata_multi::apachesite { ['enwiki', 'enwikivoyage', 'enwikisource', 'wikidatawiki', 'testhome']: }
 
     apache_module { 'rewrite':
         name => 'rewrite',
@@ -22,7 +22,7 @@ class wikidata_multi::apache() {
 
     exec { 'apache_restart':
         command => '/usr/sbin/service apache2 restart',
-        require => [ Apache_module['rewrite'], Apache_site['enwiki'], Apache_site['enwikivoyage'], Apache_site['wikidatawiki'], Apache_site['enwikisource'] ],
+        require => [ Apache_module['rewrite'], Apache_site['enwiki'], Apache_site['enwikivoyage'], Apache_site['wikidatawiki'], Apache_site['enwikisource'], Apache_site['testhome'] ],
     }
 
 }
