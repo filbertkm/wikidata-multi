@@ -4,10 +4,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 require_once ( __DIR__ . '/SiteSettings.php' );
+require_once ( __DIR__ . '/DBSettings.php' );
 
-$wgScriptPath	   = "";																		   
-$wgArticlePath	  = "/wiki/$1";																   
-$wgScriptExtension  = ".php";   
+$wgScriptPath	   = "";
+$wgArticlePath	  = "/wiki/$1";
+$wgScriptExtension  = ".php";
 
 $wgStylePath = "$wgScriptPath/skins";
 
@@ -21,16 +22,8 @@ $wgEnotifUserTalk = false; # UPO
 $wgEnotifWatchlist = false; # UPO
 $wgEmailAuthentication = true;
 
-$wgDBtype = "mysql";
-$wgDBserver = "localhost";
-$wgDBuser = "root";
-$wgDBpassword = "";
-$wgDBprefix = "";
-$wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
-$wgDBmysql5 = false;
-
-$wgMainCacheType	= CACHE_MEMCACHED;															  
-$wgMemCachedServers = array( '127.0.0.1:11211' ); 
+$wgMainCacheType	= CACHE_MEMCACHED;
+$wgMemCachedServers = array( '127.0.0.1:11211' );
 
 $wgUseGzip = true;
 
@@ -42,8 +35,8 @@ $wgShellLocale = "en_US.utf8";
 #$wgHashedUploadDirectory = false;
 
 $wgCacheDirectory = '/tmp/mw-cache-master';
-$wgLocalisationCacheConf['storeDirectory'] = "$IP/cache/l10n";                                          
-$wgLocalisationCacheConf['manualRecache'] = true;   
+$wgLocalisationCacheConf['storeDirectory'] = "$IP/cache/l10n";
+$wgLocalisationCacheConf['manualRecache'] = true;
 
 $wgLanguageCode = "en";
 
@@ -55,23 +48,23 @@ $wgVectorUseIconWatch = true;
 
 $wgRightsPage = ""; # Set to the title of a wiki page that describes your license/copyright
 $wgRightsIcon = "";
-$wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';										 
-$wgRightsText = 'Creative Commons Attribution-Share Alike 3.0 Unported';  
+$wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';
+$wgRightsText = 'Creative Commons Attribution-Share Alike 3.0 Unported';
 $wgCopyrightIcon = '<a href="//wikimediafoundation.org/"><img src="//bits.wikimedia.org/images/wikimedia-button.png" width="88" height="31" alt="Wikimedia Foundation"/></a>';
 
 if ( $wgDBname === 'wikidatawiki' ) {
-	$wgHooks['SkinCopyrightFooter'][] = function( $title, $type, &$msg, &$link, &$forContent ) {	
-		if ( $title->getNamespace() === NS_MAIN ) {													 
-			$msg = 'Creative Commons Public Domain 1.0';												
-			$link = '//creativecommons.org/publicdomain/zero/1.0/';									 
-		}																							   
-		return true;																					
-	};																								  
-}	
+	$wgHooks['SkinCopyrightFooter'][] = function( $title, $type, &$msg, &$link, &$forContent ) {
+		if ( $title->getNamespace() === NS_MAIN ) {
+			$msg = 'Creative Commons Public Domain 1.0';
+			$link = '//creativecommons.org/publicdomain/zero/1.0/';
+		}
+		return true;
+	};
+}
 
 $wgDiff3 = "/usr/bin/diff3";
 
-$wgGroupPermissions['*']['createaccount'] = false;												  
+$wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['user']['createaccount'] = true;
 
 $wgDeprecationReleaseLimit = '1.22';

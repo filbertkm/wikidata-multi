@@ -3,13 +3,13 @@
 $wgConf = new SiteConfiguration;
 
 $wgConf->settings = array(
-        'wgSitename' => array(
-                'wikidatawiki' => 'Test Wikidata',
-                'enwiki' => 'Test Wikipedia',
+	'wgSitename' => array(
+		'wikidatawiki' => 'Test Wikidata',
+		'enwiki' => 'Test Wikipedia',
 		'enwikivoyage' => 'Test Wikivoyage',
 		'enwikisource' => 'Test Wikisource'
 	),
- 	'wgServer' => array(
+	'wgServer' => array(
 		'wikidatawiki' => 'http://wikidata-dev-repo.wmflabs.org',
 		'enwiki' => 'http://wikidata-dev-enwiki.wmflabs.org',
 		'enwikivoyage' => 'http://wikidata-dev-enwikivoyage.wmflabs.org',
@@ -38,7 +38,7 @@ $wgConf->settings = array(
 	),
 	'wgProofreadPageNamespaceIds' => array(
 		'enwikisource' => array(                                                                             
-	    		'page' => 104,                                                                                   
+			'page' => 104,                                                                                   
 			'index' => 106,                                                                                  
 		)
 	),
@@ -67,7 +67,7 @@ $wgConf->settings = array(
 			115 => 'Translation_talk', // bug 50007                                                     
 		),         
 	), 
-    	'wgUseRCPatrol' => array(
+	'wgUseRCPatrol' => array(
 		'default' => false,
 		'wikidatawiki' => true,
 		'enwikisource' => true,
