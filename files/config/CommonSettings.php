@@ -76,6 +76,10 @@ if ( $wmgDebugMode ) {
 require_once ( "/srv/config/ExtensionSettings.php" );
 require_once ( "/srv/config/Wikibase.php" );
 
-$wgExtensionEntryPointListFiles[] = "/srv/mediawiki-config/wmf-config/extension-list-wikidata-labs";
+if ( $wmgUseWikibaseBuild ) {
+	$wgExtensionEntryPointListFiles[] = "/srv/mediawiki-config/wmf-config/extension-list-wikidata-labs";
+} else {
+	$wgExtensionEntryPointListFiles[] = "/srv/config/extension-list-wikidata";
+}
 
 require_once( "/srv/config/ExtensionMessages.php" );

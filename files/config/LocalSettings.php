@@ -1,14 +1,19 @@
 <?php
 $wgDBname = 'wikidatawiki';
 
+$wgEnableWikibaseRepo = false;
+$wgEnableWikibaseClient = false;
 $wmgUseWikibaseExperimental = true;
-$wmgUseWikibaseBuild = true;
+$wmgUseWikibaseBuild = false;
 $wmgSingleInstance = false;
-$wmgUseWikibaseComposer = false;
+$wmgUseWikibaseComposer = true;
 
 if ( isset( $_SERVER ) && array_key_exists( 'SERVER_NAME', $_SERVER ) ) {
 	switch ( $_SERVER['SERVER_NAME'] ) {
 		case 'wikidata-dev-enwiki.wmflabs.org':
+			$wgDBname = 'enwiki';
+			break;
+		case 'wikidata-dev-client.wmflabs.org':
 			$wgDBname = 'enwiki';
 			break;
 		case 'wikidata-dev-enwikivoyage.wmflabs.org':

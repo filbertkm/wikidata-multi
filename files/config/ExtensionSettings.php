@@ -411,6 +411,7 @@ if ( $wmgUseUniversalLanguageSelector ) {
     require_once( "$IP/extensions/UniversalLanguageSelector/UniversalLanguageSelector.php" );
     $wgULSGeoService = false;
     $wgULSAnonCanChangeLanguage = false;
+	$wgDefaultUserOptions['uls-enable'];
 }
 
 if ( $wmgUsePageImages ) {

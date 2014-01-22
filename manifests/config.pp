@@ -9,7 +9,7 @@ class wikidata_multi::config() {
     }
 
     $configs = ['CommonSettings.php', 'DebugSettings.php', 'SiteSettings.php',
-'ExtensionSettings.php', 'flaggedrevs.php', 'DBSettings.php', 'Wikibase.php']
+'ExtensionSettings.php', 'flaggedrevs.php', 'DBSettings.php', 'Wikibase.php', 'extension-list-wikidata']
 
     define configfiles {
         file { "/srv/config/${title}":

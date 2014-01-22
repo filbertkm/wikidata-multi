@@ -10,10 +10,10 @@ $wgConf->settings = array(
 		'enwikisource' => 'Test Wikisource'
 	),
 	'wgServer' => array(
-		'wikidatawiki' => '//wikidata-dev-repo.wmflabs.org',
-		'enwiki' => '//wikidata-dev-enwiki.wmflabs.org',
-		'enwikivoyage' => '//wikidata-dev-enwikivoyage.wmflabs.org',
-		'enwikisource' => '//wikidata-dev-enwikisource.wmflabs.org'
+		'wikidatawiki' => 'http://wikidata-dev-repo.wmflabs.org',
+		'enwiki' => 'http://wikidata-dev-enwiki.wmflabs.org',
+		'enwikivoyage' => 'http://wikidata-dev-enwikivoyage.wmflabs.org',
+		'enwikisource' => 'http://wikidata-dev-enwikisource.wmflabs.org'
 	),
 	'wgLogo' => array(
 		'wikidatawiki' => '/static/Wikidata-logo-demorepo.png',
@@ -37,36 +37,36 @@ $wgConf->settings = array(
 		'enwikisource' => 'Wikisource'
 	),
 	'wgProofreadPageNamespaceIds' => array(
-		'enwikisource' => array(
-			'page' => 104,
-			'index' => 106,
+		'enwikisource' => array(                                                                             
+			'page' => 104,                                                                                   
+			'index' => 106,                                                                                  
 		)
 	),
 	'wgExtraNamespaces' => array(
 		'default' => array(),
-		'enwiki' => array(
-			100 => 'Portal',
-			101 => 'Portal_talk',
-			# 106 => 'Table',
-			# 107 => 'Table_talk',
-			108 => 'Book',
-			109 => 'Book_talk',
-			118 => 'Draft', // bug 57569
-			119 => 'Draft_talk',
+		'enwiki' => array(                                                                              
+			100 => 'Portal',                                                                            
+			101 => 'Portal_talk',                                                                       
+			# 106 => 'Table',                                                                           
+			# 107 => 'Table_talk',                                                                      
+			108 => 'Book',                                                                              
+			109 => 'Book_talk',                                                                         
+			118 => 'Draft', // bug 57569                                                                
+			119 => 'Draft_talk',                                                                        
 		),
-		'enwikisource' => array(
-			100 => 'Portal',
-			101 => 'Portal_talk',
-			102 => 'Author',
-			103 => 'Author_talk',
-			104 => 'Page', // http://fr.wikisource.org/wiki/Wikisource:Scriptorium#Page:_Namespace
-			105 => 'Page_talk',
-			106 => 'Index',
-			107 => 'Index_talk',
-			114 => 'Translation', // bug 50007
-			115 => 'Translation_talk', // bug 50007
-		),
-	),
+		'enwikisource' => array(                                                                        
+			100 => 'Portal',                                                                            
+			101 => 'Portal_talk',                                                                       
+			102 => 'Author',                                                                            
+			103 => 'Author_talk',                                                                       
+			104 => 'Page', // http://fr.wikisource.org/wiki/Wikisource:Scriptorium#Page:_Namespace      
+			105 => 'Page_talk',                                                                         
+			106 => 'Index',                                                                             
+			107 => 'Index_talk',                                                                        
+			114 => 'Translation', // bug 50007                                                          
+			115 => 'Translation_talk', // bug 50007                                                     
+		),         
+	), 
 	'wgUseRCPatrol' => array(
 		'default' => false,
 		'wikidatawiki' => true,
@@ -288,8 +288,8 @@ $wgConf->settings = array(
 	)
 );
 
-$globals = $wgConf->getAll(
-	$wgDBname
+$globals = $wgConf->getAll(                                                                         
+	$wgDBname                                 
 );
 
-extract( $globals );
+extract( $globals ); 
