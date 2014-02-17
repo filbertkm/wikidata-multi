@@ -27,6 +27,8 @@ $wgMemCachedServers = array( '127.0.0.1:11211' );
 
 $wgUseGzip = true;
 
+$wgResourceLoaderDebug = true;
+
 $wgEnableUploads = false;
 $wgUseImageMagick = true;
 $wgImageMagickConvertCommand = "/usr/bin/convert";
