@@ -11,14 +11,6 @@ if ( $wmgUseWikibaseRepo || $wmgUseWikibaseClient ) {
 
 	if ( $wmgUseWikibaseBuild ) {
 		require_once ( "$IP/extensions/Wikidata/Wikidata.php" );
-	} else {
-		if ( !$wmgUseWikibaseComposer ) {
-			require_once ( "$IP/extensions/DataValues/DataValues.php" );
-			require_once ( "$IP/extensions/DataTypes/DataTypes.php" );
-			require_once ( "$IP/extensions/Diff/Diff.php" );
-			require_once ( "$IP/extensions/WikibaseDataModel/WikibaseDataModel.php" );
-			require_once ( "$IP/extensions/Wikibase/lib/WikibaseLib.php" );
-		}
 	}
 }
 
@@ -82,6 +74,7 @@ if ( $wmgUseWikibaseRepo ) {
 	$wgWBRepoSettings['localClientDatabases'] = array_combine( $wgWBClientDbList, $wgWBClientDbList );
 
 	$wgWBRepoSettings['sharedCacheDuration'] = 60 * 60 * 24;
+	$wgWBRepoSettings['sharedCacheKeyPrefix'] = 'wikidatawiki/master';
 
 	$wgWBRepoSettings['usePropertyInfoTable'] = true;
 
@@ -99,17 +92,13 @@ if ( $wmgUseWikibaseRepo ) {
 	$wgWBRepoSettings['apiInTest'] = false;
 	$wgWBRepoSettings['apiWithRights'] = true;
 	$wgWBRepoSettings['apiWithTokens'] = true;
-
-	$wgWBRepoSettings['sharedCacheKeyPrefix'] = 'wikidatawiki/WBL-1.23wmf5';
-
-#   $wgGroupPermissions['wbeditor']['item-set'] = true;
-#   $wgGroupPermissions['*']['property-create'] = true;
 }
 
 if ( $wmgUseWikibaseClient ) {
 	if ( !$wmgUseWikibaseBuild ) {
 		require_once ( "$IP/extensions/Wikibase/client/WikibaseClient.php" );
 	}
+
 	$wgWBClientSettings['repoUrl'] = $wmgSingleInstance ? $wgServer : "https://wikidata-dev-repo.wmflabs.org";
 	$wgWBClientSettings['repoScriptPath'] = $wgScriptPath;
 	$wgWBClientSettings['repoArticlePath'] = $wgArticlePath;
@@ -125,5 +114,6 @@ if ( $wmgUseWikibaseClient ) {
 		$wgWBClientSettings['repoDatabase'] = 'wikidatawiki';
 	}
 
-	$wgWBClientSettings['sharedCacheKeyPrefix'] = 'wikidatawiki/WBL-1.23wmf5';
+	$wgWBClientSettings['sharedCacheKeyPrefix'] = 'wikidatawiki/master';
+
 }
