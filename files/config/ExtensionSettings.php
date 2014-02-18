@@ -127,8 +127,7 @@ if ( $wmgUseScribunto ) {
 	include( "$IP/extensions/Scribunto/Scribunto.php" );
 	$wgScribuntoUseGeSHi = true;
 	$wgScribuntoUseCodeEditor = true;
-	$wgScribuntoDefaultEngine = 'luasandbox';
-	$wgScribuntoEngineConf['luasandbox']['cpuLimit'] = 10;
+	$wgScribuntoDefaultEngine = 'luastandalone';
 }
 
 if ( $wmgUseTitleKey ) {
