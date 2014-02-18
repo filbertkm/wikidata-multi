@@ -1,4 +1,4 @@
-class wikidata_multi::testhome() {
+class wikidata_test::testhome() {
 
    file {
         "/srv/testhome":
@@ -14,7 +14,7 @@ class wikidata_multi::testhome() {
     define testhomefiles {
         file { "/srv/testhome/${title}":
             ensure => present,
-            source => "puppet:///modules/wikidata_multi/testhome/${title}";
+            source => "puppet:///modules/wikidata_test/testhome/${title}";
         }
     }
 

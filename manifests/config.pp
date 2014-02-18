@@ -1,4 +1,4 @@
-class wikidata_multi::config() {
+class wikidata_test::config() {
 
     file {
         "/srv/config":
@@ -14,7 +14,7 @@ class wikidata_multi::config() {
     define configfiles {
         file { "/srv/config/${title}":
             ensure => present,
-            source => "puppet:///modules/wikidata_multi/config/${title}";
+            source => "puppet:///modules/wikidata_test/config/${title}";
         }
     }
 
@@ -23,7 +23,7 @@ class wikidata_multi::config() {
     file {
         '/srv/config/LocalSettings.php':
             ensure => present,
-            source => 'puppet:///modules/wikidata_multi/config/LocalSettings.php';
+            source => 'puppet:///modules/wikidata_test/config/LocalSettings.php';
     }
 
     git::clone { 'mediawiki-config':

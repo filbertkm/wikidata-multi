@@ -1,4 +1,4 @@
-class wikidata_multi::mediawiki() {
+class wikidata_test::mediawiki() {
 
     if !defined(Class['webserver::php5']) {
         class {'webserver::php5':
@@ -6,9 +6,9 @@ class wikidata_multi::mediawiki() {
         }
     }
 
-    require role::labs-mysql-server, webserver::php5-mysql
+    require role::labs-mysql-server, webserver::php5-mysql, composer
 
-    package { [ 'imagemagick', 'php5-cli', 'php-apc', 'memcached' ] :
+    package { [ 'imagemagick', 'php-apc', 'memcached' ] :
         ensure => latest,
     }
 

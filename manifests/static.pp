@@ -1,4 +1,4 @@
-class wikidata_multi::static () {
+class wikidata_test::static () {
 
     file {
         "/srv/static":
@@ -8,14 +8,14 @@ class wikidata_multi::static () {
             ensure => directory;
     }
 
-    define wikidata_multi::logo {
+    define wikidata_test::logo {
         file { "/srv/static/${title}":
             ensure => present,
-            source => "puppet:///modules/wikidata_multi/static/${title}";
+            source => "puppet:///modules/wikidata_test/static/${title}";
         }
     }
 
     $logos = ["Wikidata-logo-demorepo.png", "wikivoyage-logo.png", "wikipedia-logo.png", "wikisource-logo.png"]
-    wikidata_multi::logo { $logos: }
+    wikidata_test::logo { $logos: }
 
 }

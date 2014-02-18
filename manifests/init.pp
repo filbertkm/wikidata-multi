@@ -1,14 +1,14 @@
-class wikidata_multi() {
+class wikidata_test() {
 
     generic::systemuser { 'mwdeploy': name => 'mwdeploy' }
 
-    class {'wikidata_multi::testhome':}
-	class {'wikidata_multi::static':}
-    class {'wikidata_multi::config':}
-    class {'wikidata_multi::mediawiki':}
-    class {'wikidata_multi::mwextensions':}
-    class {'wikidata_multi::db':}
-    class {'wikidata_multi::apache':}
-    class {'wikidata_multi::setup':}
+    class {'wikidata_test::testhome':}
+	class {'wikidata_test::static':}
+    class {'wikidata_test::config':}
+    class {'wikidata_test::mediawiki':}
+    class {'wikidata_test::mwextensions':}
+    class {'wikidata_test::db':}
+    class {'wikidata_test::apache':}
+    class {'wikidata_test::setup':}
 
 }
