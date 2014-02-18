@@ -48,325 +48,298 @@ require( $IP . '/extensions/CategoryTree/CategoryTree.php' );
 $wgCategoryTreeDisableCache = false;
 
 if ( $wmgUseProofreadPage ) {
-    include( $IP . '/extensions/ProofreadPage/ProofreadPage.php' );
+	include( $IP . '/extensions/ProofreadPage/ProofreadPage.php' );
 }
 
 if ( $wmgUseLabeledSectionTransclusion ) {
-    include( $IP . '/extensions/LabeledSectionTransclusion/lst.php' );
+	include( $IP . '/extensions/LabeledSectionTransclusion/lst.php' );
 }
 
 if ( $wmgUseSpamBlacklist ) {
-    include( $IP . '/extensions/SpamBlacklist/SpamBlacklist.php' );
-    $wgBlacklistSettings = array(
-        'spam' => array(
-            'files' => array(
-                'http://meta.wikimedia.org/w/index.php?title=Spam_blacklist&action=raw&sb_ver=1'
-            ),
-        ),
-    );
-    $wgLogSpamBlacklistHits = true;
+	include( $IP . '/extensions/SpamBlacklist/SpamBlacklist.php' );
+	$wgBlacklistSettings = array(
+		'spam' => array(
+			'files' => array(
+				'http://meta.wikimedia.org/w/index.php?title=Spam_blacklist&action=raw&sb_ver=1'
+			),
+		),
+	);
+	$wgLogSpamBlacklistHits = true;
 }
 
 include( $IP . '/extensions/TitleBlacklist/TitleBlacklist.php' );
 
 $wgTitleBlacklistSources = array(
-    array(
-        'type' => TBLSRC_URL,
-        'src'  => "//meta.wikimedia.org/w/index.php?title=Title_blacklist&action=raw&tb_ver=1",
-    ),
+	array(
+		'type' => TBLSRC_URL,
+		'src'  => "//meta.wikimedia.org/w/index.php?title=Title_blacklist&action=raw&tb_ver=1",
+	),
 );
 
 if ( $wmgUseQuiz ) {
-    include( "$IP/extensions/Quiz/Quiz.php" );
+	include( "$IP/extensions/Quiz/Quiz.php" );
 }
 
 if ( $wmgUseGadgets ) {
-    include( "$IP/extensions/Gadgets/Gadgets.php" );
+	include( "$IP/extensions/Gadgets/Gadgets.php" );
 }
 
 if ( $wmgUseMwEmbedSupport ) {
-    require_once( "$IP/extensions/MwEmbedSupport/MwEmbedSupport.php" );
+	require_once( "$IP/extensions/MwEmbedSupport/MwEmbedSupport.php" );
 }
 
 if ( $wmgUseTimedMediaHandler ) {
-    require_once( "$IP/extensions/TimedMediaHandler/TimedMediaHandler.php" );
-    $wgTimedTextForeignNamespaces = array( 'commonswiki' => 102 );
-    if ( $wgDBname == 'commonswiki' ) {
-        $wgTimedTextNS = 102;
-    }
-    //overwrite enabling of local TimedText namespace
-    //$wgEnableLocalTimedText = $wmgEnableLocalTimedText;
+	require_once( "$IP/extensions/TimedMediaHandler/TimedMediaHandler.php" );
+	$wgTimedTextForeignNamespaces = array( 'commonswiki' => 102 );
+	if ( $wgDBname == 'commonswiki' ) {
+		$wgTimedTextNS = 102;
+	}
+	//overwrite enabling of local TimedText namespace
+	//$wgEnableLocalTimedText = $wmgEnableLocalTimedText;
 
-    //enable transcoding on all wikis that allow uploads
-    $wgEnableTranscode = $wgEnableUploads;
+	//enable transcoding on all wikis that allow uploads
+	$wgEnableTranscode = $wgEnableUploads;
 
-    $wgOggThumbLocation = false; // use ffmpeg for performance
-    // $wgOggThumbLocation = '/usr/bin/oggThumb';
+	$wgOggThumbLocation = false; // use ffmpeg for performance
+	// $wgOggThumbLocation = '/usr/bin/oggThumb';
 
-    //tmh1/2 have 12 cores and need lots of shared memory
-    //for avconv / ffmpeg2theora
-    $wgTranscodeBackgroundMemoryLimit = 4 * 1024 * 1024; // 4GB
-    $wgFFmpegThreads = 2;
+	//tmh1/2 have 12 cores and need lots of shared memory
+	//for avconv / ffmpeg2theora
+	$wgTranscodeBackgroundMemoryLimit = 4 * 1024 * 1024; // 4GB
+	$wgFFmpegThreads = 2;
 
-    // Minimum size for an embed video player
-    // $wgMinimumVideoPlayerSize = $wmgMinimumVideoPlayerSize;
+	// Minimum size for an embed video player
+	// $wgMinimumVideoPlayerSize = $wmgMinimumVideoPlayerSize;
 }
 
 include( $IP . '/extensions/AssertEdit/AssertEdit.php' );
 
 if ( $wgUseContactPageFundraiser ) {
-    include( "$IP/extensions/ContactPageFundraiser/ContactPage.php" );
-    $wgContactUser = 'Storiescontact';
+	include( "$IP/extensions/ContactPageFundraiser/ContactPage.php" );
+	$wgContactUser = 'Storiescontact';
 }
 
 if ( $wmgPFEnableStringFunctions ) {
-    $wgPFEnableStringFunctions = true;
+	$wgPFEnableStringFunctions = true;
 }
 
-/*
-include( $IP . '/extensions/GlobalBlocking/GlobalBlocking.php' );
-$wgGlobalBlockingDatabase = 'centralauth';
-$wgApplyGlobalBlocks = $wmgApplyGlobalBlocks;
-$wgGlobalBlockingBlockXFF = $wmgUseXFFBlocks;
-
-include( $IP . '/extensions/TrustedXFF/TrustedXFF.php' );
-if ( function_exists( 'dba_open' ) && file_exists( "$wmfConfigDir/trusted-xff.cdb" ) ) {
-    $wgTrustedXffFile = "$wmfConfigDir/trusted-xff.cdb";
+if ( $wmgUseScribunto ) {
+	include( "$IP/extensions/Scribunto/Scribunto.php" );
+	$wgScribuntoUseGeSHi = true;
+	$wgScribuntoUseCodeEditor = true;
+	$wgScribuntoDefaultEngine = 'luasandbox';
+	$wgScribuntoEngineConf['luasandbox']['cpuLimit'] = 10;
 }
-
-if ( $wmgContactPageConf ) {
-    include( $IP . '/extensions/ContactPage/ContactPage.php' );
-    extract( $wmgContactPageConf );
-}
-
-if ( $wmgUseSecurePoll ) {
-    include( $IP . '/extensions/SecurePoll/SecurePoll.php' );
-
-    $wgSecurePollScript = 'auth-api.php';
-    $wgHooks['SecurePoll_JumpUrl'][] = function( $page, &$url ) {
-        global $site, $lang;
-
-        $url = wfAppendQuery( $url, array( 'site' => $site, 'lang' => $lang ) );
-        return true;
-    };
-}
-
-if ( $wmgUseScore ) {
-    include( "$IP/extensions/Score/Score.php" );
-    $wgScoreFileBackend = $wmgScoreFileBackend;
-    $wgScorePath = $wmgScorePath;
-}
-*/
 
 if ( $wmgUseTitleKey ) {
-    include "$IP/extensions/TitleKey/TitleKey.php";
-    if ( $wmgUseCirrus ) {
-        array_pop( $wgExtensionFunctions );
-        $wgHooks['SearchGetNearMatch'][] = 'TitleKey::searchGetNearMatch';
-    }
+	include "$IP/extensions/TitleKey/TitleKey.php";
+	if ( $wmgUseCirrus ) {
+		array_pop( $wgExtensionFunctions );
+		$wgHooks['SearchGetNearMatch'][] = 'TitleKey::searchGetNearMatch';
+	}
 }
 
 if ( $wmgUseDPL ) {
-    include( $IP . '/extensions/intersection/DynamicPageList.php' );
+	include( $IP . '/extensions/intersection/DynamicPageList.php' );
 }
 
 include( $IP . '/extensions/Renameuser/Renameuser.php' );
 
 if ( $wmgUseSpecialNuke ) {
-    include( $IP . '/extensions/Nuke/Nuke.php' );
+	include( $IP . '/extensions/Nuke/Nuke.php' );
 }
 
 include( "$IP/extensions/AntiBot/AntiBot.php" );
 $wgAntiBotPayloads = array(
-    'default' => array( 'log', 'fail' ),
+	'default' => array( 'log', 'fail' ),
 );
 
 if ( $wmgUseRSSExtension ) {
-    include( "$IP/extensions/RSS/RSS.php" );
+	include( "$IP/extensions/RSS/RSS.php" );
 }
 
 include $IP . '/extensions/AntiSpoof/AntiSpoof.php';
 
 if ( $wmgUseDismissableSiteNotice ) {
-    require( "$IP/extensions/DismissableSiteNotice/DismissableSiteNotice.php" );
+	require( "$IP/extensions/DismissableSiteNotice/DismissableSiteNotice.php" );
 }
 
 include "$IP/extensions/WikimediaMessages/WikimediaMessages.php";
 if ( $wmgUseWikimediaLicenseTexts ) {
-    include "$IP/extensions/WikimediaMessages/WikimediaLicenseTexts.php";
+	include "$IP/extensions/WikimediaMessages/WikimediaLicenseTexts.php";
 }
 
 if ( $wmgUseNewUserMessage ) {
-    include "$IP/extensions/NewUserMessage/NewUserMessage.php";
+	include "$IP/extensions/NewUserMessage/NewUserMessage.php";
 }
 
 if ( $wmgUsePdfHandler ) {
-    include ( "$IP/extensions/PdfHandler/PdfHandler.php" );
+	include ( "$IP/extensions/PdfHandler/PdfHandler.php" );
 }
 
 if ( $wmgUserDailyContribs ) {
-    require "$IP/extensions/UserDailyContribs/UserDailyContribs.php";
+	require "$IP/extensions/UserDailyContribs/UserDailyContribs.php";
 }
 
 if ( $wmgUseMassMessage ) {
-    require_once( "$IP/extensions/MassMessage/MassMessage.php" );
+	require_once( "$IP/extensions/MassMessage/MassMessage.php" );
 }
 
 if ( $wmgUseBetaFeatures ) {
-    require_once( "$IP/extensions/BetaFeatures/BetaFeatures.php" );
+	require_once( "$IP/extensions/BetaFeatures/BetaFeatures.php" );
 }
 
 if ( $wmgUseCommonsMetadata ) {
-    require_once( "$IP/extensions/CommonsMetadata/CommonsMetadata.php" );
+	require_once( "$IP/extensions/CommonsMetadata/CommonsMetadata.php" );
 }
 
 if ( $wmgUseGWToolset ) {
-    require_once( "$IP/extensions/GWToolset/GWToolset.php" );
-    $wgGWTFileBackend = 'local-multiwrite';
-    $wgGWTFBMaxAge = '1 week';
-    $wgJobTypeConf['gwtoolsetUploadMetadataJob'] = array( 'checkDelay' => true ) + $wgJobTypeConf['default'];
+	require_once( "$IP/extensions/GWToolset/GWToolset.php" );
+	$wgGWTFileBackend = 'local-multiwrite';
+	$wgGWTFBMaxAge = '1 week';
+	$wgJobTypeConf['gwtoolsetUploadMetadataJob'] = array( 'checkDelay' => true ) + $wgJobTypeConf['default'];
 }
 
 if ( $wmgUseMultimediaViewer ) {
-    require_once( "$IP/extensions/MultimediaViewer/MultimediaViewer.php" );
+	require_once( "$IP/extensions/MultimediaViewer/MultimediaViewer.php" );
 }
 
 if ( $wmgUseVectorBeta ) {
-    require_once( "$IP/extensions/VectorBeta/VectorBeta.php" );
+	require_once( "$IP/extensions/VectorBeta/VectorBeta.php" );
 }
 
 if ( $wmgUseTemplateData ) {
-    require_once( "$IP/extensions/TemplateData/TemplateData.php" );
+	require_once( "$IP/extensions/TemplateData/TemplateData.php" );
 }
 
 if ( $wmgUseCLDR ) {
-    require_once( "$IP/extensions/cldr/cldr.php" );
+	require_once( "$IP/extensions/cldr/cldr.php" );
 }
 
 if ( $wmgUseDisableAccount ) {
-    require_once( "$IP/extensions/DisableAccount/DisableAccount.php" );
-    $wgGroupPermissions['bureaucrat']['disableaccount'] = true;
+	require_once( "$IP/extensions/DisableAccount/DisableAccount.php" );
+	$wgGroupPermissions['bureaucrat']['disableaccount'] = true;
 }
 
 if ( $wmgUseWikiLove ) {
-    require_once( "$IP/extensions/WikiLove/WikiLove.php" );
-    $wgWikiLoveLogging = true;
-    if ( $wmgWikiLoveDefault ) {
-        $wgDefaultUserOptions['wikilove-enabled'] = 1;
-    }
+	require_once( "$IP/extensions/WikiLove/WikiLove.php" );
+	$wgWikiLoveLogging = true;
+	if ( $wmgWikiLoveDefault ) {
+		$wgDefaultUserOptions['wikilove-enabled'] = 1;
+	}
 }
 
 if ( $wmgUseGuidedTour ) {
-    require_once( "$IP/extensions/GuidedTour/GuidedTour.php" );
+	require_once( "$IP/extensions/GuidedTour/GuidedTour.php" );
 }
 
 if ( $wmgUseMarkAsHelpful ) {
-    require_once( "$IP/extensions/MarkAsHelpful/MarkAsHelpful.php" );
-    $wgMarkAsHelpfulType = array( 'mbresponse' );
+	require_once( "$IP/extensions/MarkAsHelpful/MarkAsHelpful.php" );
+	$wgMarkAsHelpfulType = array( 'mbresponse' );
 }
 
 if ( $wmgUseMoodBar ) {
-    require_once( "$IP/extensions/MoodBar/MoodBar.php" );
-    $wgMoodBarCutoffTime = $wmgMoodBarCutoffTime;
-    $wgMoodBarBlackoutInterval = array( '20120614000000,20120629000000' );
-    $wgMoodBarConfig['privacyUrl'] = "//wikimediafoundation.org/wiki/Feedback_policy";
-    $wgMoodBarConfig['feedbackDashboardUrl'] = "$wgServer/wiki/Special:FeedbackDashboard";
+	require_once( "$IP/extensions/MoodBar/MoodBar.php" );
+	$wgMoodBarCutoffTime = $wmgMoodBarCutoffTime;
+	$wgMoodBarBlackoutInterval = array( '20120614000000,20120629000000' );
+	$wgMoodBarConfig['privacyUrl'] = "//wikimediafoundation.org/wiki/Feedback_policy";
+	$wgMoodBarConfig['feedbackDashboardUrl'] = "$wgServer/wiki/Special:FeedbackDashboard";
 }
 $wgAvailableRights[] = 'moodbar-admin'; // To allow global groups to include this right -AG
 
 
 if ( $wmgUseSubPageList3 ) {
-    include( "$IP/extensions/SubPageList3/SubPageList3.php" );
+	include( "$IP/extensions/SubPageList3/SubPageList3.php" );
 }
 
 if ( $wmgUseBabel ) {
-    require_once( "$IP/extensions/Babel/Babel.php" );
-    // $wgBabelCategoryNames = $wmgBabelCategoryNames;
-    // $wgBabelMainCategory = $wmgBabelMainCategory;
-    // $wgBabelDefaultLevel = $wmgBabelDefaultLevel;
-    // $wgBabelUseUserLanguage = $wmgBabelUseUserLanguage;
+	require_once( "$IP/extensions/Babel/Babel.php" );
+	// $wgBabelCategoryNames = $wmgBabelCategoryNames;
+	// $wgBabelMainCategory = $wmgBabelMainCategory;
+	// $wgBabelDefaultLevel = $wmgBabelDefaultLevel;
+	// $wgBabelUseUserLanguage = $wmgBabelUseUserLanguage;
 }
 
 if ( $wmgUseApiSandbox ) {
-    require_once( "$IP/extensions/ApiSandbox/ApiSandbox.php" );
+	require_once( "$IP/extensions/ApiSandbox/ApiSandbox.php" );
 }
 
 if ( $wmgEnablePageTriage ) {
-    require_once( "$IP/extensions/PageTriage/PageTriage.php" );
+	require_once( "$IP/extensions/PageTriage/PageTriage.php" );
 }
 
 if ( $wmgEnableInterwiki ) {
-    require_once( "$IP/extensions/Interwiki/Interwiki.php" );
-    $wgInterwikiViewOnly = true;
+	require_once( "$IP/extensions/Interwiki/Interwiki.php" );
+	$wgInterwikiViewOnly = true;
 }
 
 if ( $wmgEnableRandomRootPage ) {
-    require_once( "$IP/extensions/RandomRootPage/Randomrootpage.php" );
+	require_once( "$IP/extensions/RandomRootPage/Randomrootpage.php" );
 }
 
 if ( $wmgUseThanks ) {
-    require_once( "$IP/extensions/Thanks/Thanks.php" );
+	require_once( "$IP/extensions/Thanks/Thanks.php" );
 }
 
 if ( $wmgUseDisambiguator ) {
-    require_once( "$IP/extensions/Disambiguator/Disambiguator.php" );
+	require_once( "$IP/extensions/Disambiguator/Disambiguator.php" );
 }
 
 if ( $wmgUseSubpageSortkey ) {
-    include( "$IP/extensions/SubpageSortkey/SubpageSortkey.php" );
+	include( "$IP/extensions/SubpageSortkey/SubpageSortkey.php" );
 }
 
 /*
 if ( $wmgUseGettingStarted ) {
-    require_once( "$IP/extensions/GettingStarted/GettingStarted.php" );
-    if ( !empty( $sessionRedis[$wmfDatacenter] ) ) {
-        $wgGettingStartedRedis = $sessionRedis[$wmfDatacenter][0];
-        $wgGettingStartedRedisOptions['password'] = $wmgRedisPassword;
-    }
-    $wgGettingStartedExcludedCategories = $wmgGettingStartedExcludedCategories;
-    $wgGettingStartedRunTest = $wmgGettingStartedRunTest;
+	require_once( "$IP/extensions/GettingStarted/GettingStarted.php" );
+	if ( !empty( $sessionRedis[$wmfDatacenter] ) ) {
+		$wgGettingStartedRedis = $sessionRedis[$wmfDatacenter][0];
+		$wgGettingStartedRedisOptions['password'] = $wmgRedisPassword;
+	}
+	$wgGettingStartedExcludedCategories = $wmgGettingStartedExcludedCategories;
+	$wgGettingStartedRunTest = $wmgGettingStartedRunTest;
 }
 */
 
 if ( $wmgUseGeoCrumbs ) {
-    require_once( "$IP/extensions/GeoCrumbs/GeoCrumbs.php" );
+	require_once( "$IP/extensions/GeoCrumbs/GeoCrumbs.php" );
 }
 
 if ( $wmgUseGeoCrumbs || $wmgUseInsider || $wmgUseRelatedArticles || $wmgUseRelatedSites ) {
-    require_once( "$IP/extensions/CustomData/CustomData.php" );
+	require_once( "$IP/extensions/CustomData/CustomData.php" );
 }
 
 if ( $wmgUseCalendar ) {
-    require_once( "$IP/extensions/Calendar/Calendar.php" );
+	require_once( "$IP/extensions/Calendar/Calendar.php" );
 }
 
 if ( $wmgUseMapSources ) {
-    require_once( "$IP/extensions/MapSources/MapSources.php" );
+	require_once( "$IP/extensions/MapSources/MapSources.php" );
 }
 
 if ( $wmgUseSlippyMap ) {
-    require_once( "$IP/extensions/OpenStreetMapSlippyMap/SlippyMap.php" );
+	require_once( "$IP/extensions/OpenStreetMapSlippyMap/SlippyMap.php" );
 }
 
 if ( $wmgUseCreditsSource ) {
-    require_once( "$IP/extensions/CreditsSource/CreditsSource.php" );
+	require_once( "$IP/extensions/CreditsSource/CreditsSource.php" );
 }
 
 if ( $wmgUseListings ) {
-    require_once( "$IP/extensions/Listings/Listings.php" );
+	require_once( "$IP/extensions/Listings/Listings.php" );
 }
 
 if ( $wmgUseTocTree ) {
-    require_once( "$IP/extensions/TocTree/TocTree.php" );
-    $wgDefaultUserOptions['toc-floated'] = $wmgUseFloatedToc;
+	require_once( "$IP/extensions/TocTree/TocTree.php" );
+	$wgDefaultUserOptions['toc-floated'] = $wmgUseFloatedToc;
 }
 
 if ( $wmgUseInsider ) {
-    require_once( "$IP/extensions/Insider/Insider.php" );
+	require_once( "$IP/extensions/Insider/Insider.php" );
 }
 
 if ( $wmgUseRelatedArticles ) {
-    require_once( "$IP/extensions/RelatedArticles/RelatedArticles.php" );
+	require_once( "$IP/extensions/RelatedArticles/RelatedArticles.php" );
 }
 
 if ( $wmgUseRelatedSites ) {
@@ -385,7 +358,7 @@ if ( $wmgUseRelatedSites ) {
 		'wtp'
 	);
 
-    $wgExtraLanguageNames = array(
+	$wgExtraLanguageNames = array(
 		'wikitravel' => 'Wikitravel',
 		'wikipedia' => 'Wikipedia',
 		'WikiPedia' => 'Wikipedia',
@@ -404,18 +377,18 @@ if ( $wmgUseRelatedSites ) {
 }
 
 if ( $wmgUseUserMerge ) {
-    require_once( "$IP/extensions/UserMerge/UserMerge.php" );
+	require_once( "$IP/extensions/UserMerge/UserMerge.php" );
 }
 
 if ( $wmgUseUniversalLanguageSelector ) {
-    require_once( "$IP/extensions/UniversalLanguageSelector/UniversalLanguageSelector.php" );
-    $wgULSGeoService = false;
+	require_once( "$IP/extensions/UniversalLanguageSelector/UniversalLanguageSelector.php" );
+	$wgULSGeoService = false;
 	$wgULSAnonCanChangeLanguage = false;
 	$wgDefaultUserOptions['uls-enable'] = 1;
 }
 
 if ( $wmgUsePageImages ) {
-    require_once( "$IP/extensions/PageImages/PageImages.php" );
+	require_once( "$IP/extensions/PageImages/PageImages.php" );
 }
 
 require_once ( "$IP/extensions/CheckUser/CheckUser.php" );
