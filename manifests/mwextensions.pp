@@ -1,6 +1,6 @@
 class wikidata_multi::mwextensions() {
 
-    require wikidata_multi::mediawiki
+    require wikidata_multi::mediawiki, composer
 
     git::clone { 'mwextensions':
         ensure    => latest,
@@ -31,4 +31,10 @@ class wikidata_multi::mwextensions() {
         require => exec["update-extensions"],
         timeout => 1800;
     }
+
+	exec { 'composer-update':
+	    command => '/usr/local/bin/composer update',
+		require => [ exec["update-extensions"], file["/usr/local/bin/composer"] ],
+		timeout => 1000;
+	}
 }
