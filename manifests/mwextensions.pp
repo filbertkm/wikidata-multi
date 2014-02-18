@@ -1,6 +1,6 @@
-class wikidata_multi::mwextensions() {
+class wikidata_test::mwextensions() {
 
-    require wikidata_multi::mediawiki, composer
+    require wikidata_test::mediawiki
 
     git::clone { 'mwextensions':
         ensure    => latest,
@@ -32,9 +32,15 @@ class wikidata_multi::mwextensions() {
         timeout => 1800;
     }
 
-	exec { 'composer-update':
-	    command => '/usr/local/bin/composer update',
-		require => [ exec["update-extensions"], file["/usr/local/bin/composer"] ],
-		timeout => 1000;
+	define wikidata_test::composer-update () {
+	    exec { "composer-update-${title}":
+    	    cwd => "/srv/mediawiki/extensions/${title}",
+    		command => '/usr/local/bin/composer update --prefer-source',
+    		require => [ exec["update-extensions"], file["/usr/local/bin/composer"] ],
+			user => 'mwdeploy',
+			timeout => 1000;
+    	}
 	}
+
+	wikidata_test::composer-update{ ['Wikibase']: }
 }

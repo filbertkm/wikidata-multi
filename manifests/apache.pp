@@ -1,12 +1,12 @@
-class wikidata_multi::apache() {
+class wikidata_test::apache() {
 
-    define wikidata_multi::apachesite () {
+    define wikidata_test::apachesite () {
         file { "/etc/apache2/sites-available/${title}":
             ensure => present,
                owner => 'root',
                group => 'root',
                mode => '0644',
-               source => "puppet:///modules/wikidata_multi/apache/${title}";
+               source => "puppet:///modules/wikidata_test/apache/${title}";
         }
 
         apache_site { "${title}":
@@ -14,7 +14,7 @@ class wikidata_multi::apache() {
         }
     }
 
-    wikidata_multi::apachesite { ['enwiki', 'enwikivoyage', 'enwikisource', 'wikidatawiki', 'testhome']: }
+    wikidata_test::apachesite { ['enwiki', 'enwikivoyage', 'enwikisource', 'wikidatawiki', 'testhome']: }
 
     apache_module { 'rewrite':
         name => 'rewrite',

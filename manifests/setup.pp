@@ -1,4 +1,4 @@
-class wikidata_multi::setup() {
+class wikidata_test::setup() {
 
    file {
         "/srv/mediawiki/master/cache/l10n":
@@ -15,7 +15,7 @@ class wikidata_multi::setup() {
 
         "/srv/static/mainpage.txt":
             ensure => present,
-            source => 'puppet:///modules/wikidata_multi/static/mainpage.txt';
+            source => 'puppet:///modules/wikidata_test/static/mainpage.txt';
 
 		"/srv/scripts":
 			owner => 'mwdeploy',
@@ -28,14 +28,14 @@ class wikidata_multi::setup() {
 			owner => 'mwdeploy',
             group => 'www-data',
             mode => 0755,
-            source => 'puppet:///modules/wikidata_multi/scripts/mainpage.php';
+            source => 'puppet:///modules/wikidata_test/scripts/mainpage.php';
 
         "/srv/static/simple-elements.xml":
             ensure => present,
             owner => 'mwdeploy',
             group => 'www-data',
             mode => 0755,
-            source => 'puppet:///modules/wikidata_multi/static/simple-elements.xml';
+            source => 'puppet:///modules/wikidata_test/static/simple-elements.xml';
     }
 
     define setupmainpage {
