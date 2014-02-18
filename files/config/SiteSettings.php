@@ -285,6 +285,9 @@ $wgConf->settings = array(
 	),
 	'wmgUseTemplateSandbox' => array(
 		'default' => true
+	),
+	'wmgUseScribunto' => array(
+		'default' => true
 	)
 );
 
