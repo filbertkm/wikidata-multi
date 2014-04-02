@@ -84,4 +84,6 @@ if ( $wmgUseWikibaseBuild ) {
 	$wgExtensionEntryPointListFiles[] = "/srv/config/extension-list-wikidata";
 }
 
-require_once( "/srv/config/ExtensionMessages.php" );
+if ( file_exists( "/srv/config/ExtensionMessages.php" ) ) {
+	require_once( "/srv/config/ExtensionMessages.php" );
+}

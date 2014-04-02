@@ -176,7 +176,7 @@ $wgConf->settings = array(
 		'default' => true
 	),
 	'wmgUseVectorBeta' => array(
-		'default' => true
+		'default' => false
 	),
 	'wmgUseTemplateData' => array(
 		'default' => false

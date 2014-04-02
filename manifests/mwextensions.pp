@@ -17,30 +17,43 @@ class wikidata_test::mwextensions() {
         '/srv/mediawiki/master/extensions':
             ensure => 'link',
             force => true,
-            target => '/srv/mediawiki/extensions';
-    }
-
-    exec { 'update-extensions':
-        cwd => '/srv/mediawiki/extensions',
-        command => '/srv/mediawiki/extensions/update-extensions.sh';
+            owner => 'root',
+            group => 'www-data',
+            target => '/srv/mediawiki/extensions',
+            require => git::clone["mwextensions"];
     }
 
     exec { 'git-submodule-update':
         cwd => '/srv/mediawiki/extensions',
         command => '/usr/bin/git submodule update --init --recursive',
-        require => exec["update-extensions"],
+        user => 'root',
+        require => git::clone["mwextensions"],
         timeout => 1800;
     }
 
-	define wikidata_test::composer-update () {
-	    exec { "composer-update-${title}":
-    	    cwd => "/srv/mediawiki/extensions/${title}",
-    		command => '/usr/local/bin/composer update --prefer-source',
-    		require => [ exec["update-extensions"], file["/usr/local/bin/composer"] ],
-			user => 'mwdeploy',
-			timeout => 1000;
-    	}
-	}
+    exec { 'composer-self-update':
+        command => '/usr/local/bin/composer self-update',
+        user => 'root',
+        require => file["/usr/local/bin/composer"];
+    }
 
-	wikidata_test::composer-update{ ['Wikibase']: }
+    define wikidata_test::composer-update () {
+        exec { "composer-install-${title}":
+            cwd => "/srv/mediawiki/extensions/${title}",
+            command => '/usr/local/bin/composer install --prefer-source',
+            require => [ exec["git-submodule-update", "composer-self-update"], file["/usr/local/bin/composer"] ],
+            user => 'root',
+            timeout => 1000;
+        }
+
+        exec { "composer-update-${title}":
+            cwd => "/srv/mediawiki/extensions/${title}",
+            command => '/usr/local/bin/composer update --prefer-source',
+            require => [ exec["composer-install-${title}"] ],
+            user => 'root',
+            timeout => 1000;
+        }
+    }
+
+    wikidata_test::composer-update{ ['Wikibase']: }
 }
