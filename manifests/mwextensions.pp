@@ -16,7 +16,7 @@ class wikidata_test::mwextensions() {
     git::clone { 'wikidatagit':
         ensure => latest,
         directory => '/srv/mediawiki/extensions/WikidataBuild',
-        branch => 'master',
+        branch => 'query',
         owner => 'root',
         group => 'www-data',
         timeout => 200,
