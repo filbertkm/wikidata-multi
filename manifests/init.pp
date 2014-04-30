@@ -10,5 +10,6 @@ class wikidata_test() {
     class {'wikidata_test::db':}
     class {'wikidata_test::apache':}
     class {'wikidata_test::setup':}
+    class {'wikidata_test::changedispatcher':}
 
 }
