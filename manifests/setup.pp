@@ -2,14 +2,14 @@ class wikidata_test::setup() {
 
    file {
         "/srv/mediawiki/master/cache/l10n":
-            owner => 'mwdeploy',
+            owner => 'root',
             group => 'www-data',
             mode => 0755,
             ensure => directory,
             require => git::clone["mediawiki"];
 
         "/tmp/mw-cache-master":
-            owner => 'mwdeploy',
+            owner => 'root',
             group => 'www-data',
             mode => 0755,
             ensure => directory;
@@ -18,22 +18,22 @@ class wikidata_test::setup() {
             ensure => present,
             source => 'puppet:///modules/wikidata_test/static/mainpage.txt';
 
-		"/srv/scripts":
-			owner => 'mwdeploy',
-			group => 'www-data',
-			mode => 0755,
-			ensure => directory;
+        "/srv/scripts":
+            owner => 'root',
+            group => 'www-data',
+            mode => 0755,
+            ensure => directory;
 
         "/srv/scripts/mainpage.php":
-			ensure => present,
-			owner => 'mwdeploy',
+            ensure => present,
+            owner => 'root',
             group => 'www-data',
             mode => 0755,
             source => 'puppet:///modules/wikidata_test/scripts/mainpage.php';
 
         "/srv/static/simple-elements.xml":
             ensure => present,
-            owner => 'mwdeploy',
+            owner => 'root',
             group => 'www-data',
             mode => 0755,
             source => 'puppet:///modules/wikidata_test/static/simple-elements.xml';

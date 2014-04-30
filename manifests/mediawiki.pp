@@ -12,11 +12,18 @@ class wikidata_test::mediawiki() {
         ensure => latest,
     }
 
+    file {
+        "/srv/mediawiki":
+            owner => 'root',
+            group => 'www-data',
+            ensure => directory;
+    }
+
     git::clone { 'mediawiki':
         ensure    => latest,
         directory => '/srv/mediawiki/master',
         branch => 'master',
-        owner => 'mwdeploy',
+        owner => 'root',
         group => 'www-data',
         timeout => 1800,
         origin => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git';

@@ -6,7 +6,7 @@ class wikidata_test::mwextensions() {
         ensure    => latest,
         directory => '/srv/mediawiki/extensions',
         branch => 'master',
-        owner => 'mwdeploy',
+        owner => 'root',
         group => 'www-data',
         timeout => 1800,
         require => git::clone["mediawiki"],
