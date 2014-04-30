@@ -13,6 +13,17 @@ class wikidata_test::mwextensions() {
         origin => 'https://gerrit.wikimedia.org/r/p/mediawiki/extensions.git';
     }
 
+    git::clone { 'wikidatagit':
+        ensure => latest,
+        directory => '/srv/mediawiki/extensions/WikidataBuild',
+        branch => 'master',
+        owner => 'root',
+        group => 'www-data',
+        timeout => 200,
+        require => git::clone['mwextensions'],
+        origin => 'https://github.com/filbertkm/WikidataBuild.git';
+    }
+
     file {
         '/srv/mediawiki/master/extensions':
             ensure => 'link',
@@ -61,5 +72,5 @@ class wikidata_test::mwextensions() {
         }
     }
 
-    wikidata_test::composer-update{ ['Wikibase']: }
+    wikidata_test::composer-update{ ['WikidataBuild']: }
 }

@@ -8,7 +8,7 @@ class wikidata_test::changedispatcher() {
     }
 
     cron { "cron-dispatchchanges":
-        command => '/usr/bin/php maintenance/runScript.php extensions/Wikibase/lib/maintenance/dispatchChanges.php --wiki wikidatawiki --max-time 900 --batch-size 200 --dispatch-interval 30 2>&1 >> /var/log/wikidata/dispatcher.log',
+        command => '/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/dispatchChanges.php --wiki wikidatawiki --max-time 900 --batch-size 200 --dispatch-interval 30 2>&1 >> /var/log/wikidata/dispatcher.log',
         user    => 'root',
         minute  => '*/4',
         ensure   => present;

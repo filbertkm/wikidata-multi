@@ -78,11 +78,7 @@ if ( $wmgDebugMode ) {
 require_once ( "/srv/config/ExtensionSettings.php" );
 require_once ( "/srv/config/Wikibase.php" );
 
-if ( $wmgUseWikibaseBuild ) {
-	$wgExtensionEntryPointListFiles[] = "/srv/mediawiki-config/wmf-config/extension-list-wikidata-labs";
-} else {
-	$wgExtensionEntryPointListFiles[] = "/srv/config/extension-list-wikidata";
-}
+$wgExtensionEntryPointListFiles[] = "/srv/mediawiki/extensions/Wikidata/extension-list-wikidata";
 
 if ( file_exists( "/srv/config/ExtensionMessages.php" ) ) {
 	require_once( "/srv/config/ExtensionMessages.php" );

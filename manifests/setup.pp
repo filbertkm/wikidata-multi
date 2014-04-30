@@ -41,7 +41,7 @@ class wikidata_test::setup() {
 
     define setupmainpage {
         exec { "create_mainpage_${title}":
-            require => [ Exec["composer-update-Wikibase"], File["/srv/static/mainpage.txt"], File["/srv/scripts/mainpage.php"] ],
+            require => [ Exec["composer-update-WikidataBuild"], File["/srv/static/mainpage.txt"], File["/srv/scripts/mainpage.php"] ],
             cwd => "/srv/scripts",
             command => "/usr/bin/php mainpage.php --wiki ${title}",
             logoutput => "on_failure";
@@ -51,7 +51,7 @@ class wikidata_test::setup() {
     setupmainpage { ['enwiki', 'enwikivoyage', 'enwikisource']: }
 
     exec { "merge_messages":
-        require => [ Exec["composer-update-Wikibase"], File["/srv/config/CommonSettings.php"] ],
+        require => [ Exec["composer-update-WikidataBuild"], File["/srv/config/CommonSettings.php"] ],
         cwd => "/srv/mediawiki/master",
         command => "/usr/bin/php maintenance/mergeMessageFileList.php --wiki enwiki --list-file /srv/mediawiki-config/wmf-config/extension-list --output /srv/config/ExtensionMessages.php",
         logoutput => "on_failure";
@@ -69,7 +69,7 @@ class wikidata_test::setup() {
         exec { "populate_sites_${title}":
             require => [ Exec["rebuild_localisation"] ],
             cwd => "/srv/mediawiki/master",
-            command => "/usr/bin/php maintenance/runScript.php extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki ${title}",
+            command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki ${title}",
             timeout => 600,
             logoutput => "on_failure";
         }
@@ -80,7 +80,7 @@ class wikidata_test::setup() {
     exec { "import_interlang":
         require => [ Exec["rebuild_localisation"] ],
         cwd => "/srv/mediawiki/master",
-        command => "/usr/bin/php maintenance/runScript.php extensions/Wikibase/repo/maintenance/importInterlang.php --wiki wikidatawiki --ignore-errors simple extensions/Wikibase/repo/maintenance/simple-elements.csv",
+        command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/importInterlang.php --wiki wikidatawiki --ignore-errors simple extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/simple-elements.csv",
         timeout => 1800,
         logoutput => "on_failure";
     }
@@ -88,7 +88,7 @@ class wikidata_test::setup() {
     exec { "import_properties":
         require => [ Exec["import_interlang"] ],
         cwd => "/srv/mediawiki/master",
-        command => "/usr/bin/php maintenance/runScript.php extensions/Wikibase/repo/maintenance/importProperties.php --wiki wikidatawiki en extensions/Wikibase/repo/maintenance/en-elements-properties.csv",
+        command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/importProperties.php --wiki wikidatawiki en extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/en-elements-properties.csv",
         timeout => 1800,
         logoutput => "on_failure";
     }
