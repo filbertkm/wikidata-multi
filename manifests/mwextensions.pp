@@ -25,7 +25,7 @@ class wikidata_test::mwextensions() {
 
     exec { 'git-submodule-update':
         cwd => '/srv/mediawiki/extensions',
-        command => '/usr/bin/git submodule update --init --recursive',
+        command => '/usr/bin/git submodule foreach git reset --hard HEAD && /usr/bin/git submodule update --init --recursive',
         user => 'root',
         require => git::clone["mwextensions"],
         timeout => 1800;
@@ -38,10 +38,16 @@ class wikidata_test::mwextensions() {
     }
 
     define wikidata_test::composer-update () {
+        file {
+          "/srv/mediawiki/extensions/${title}/composer.lock":
+            ensure => 'absent',
+            require => exec["git-submodule-update"];
+        }
+
         exec { "composer-install-${title}":
             cwd => "/srv/mediawiki/extensions/${title}",
             command => '/usr/local/bin/composer install --prefer-source',
-            require => [ exec["git-submodule-update", "composer-self-update"], file["/usr/local/bin/composer"] ],
+            require => [ exec["composer-self-update"], file["/usr/local/bin/composer"], file["/srv/mediawiki/extensions/${title}/composer.lock"] ],
             user => 'root',
             timeout => 1000;
         }
