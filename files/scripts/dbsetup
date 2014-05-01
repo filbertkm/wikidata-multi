@@ -17,5 +17,4 @@ for x in $DBLIST; do
 	fi
 
 	/usr/bin/php /srv/mediawiki/$BRANCH/maintenance/update.php --wiki $x
-
 done

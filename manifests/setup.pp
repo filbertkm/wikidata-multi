@@ -39,6 +39,15 @@ class wikidata_test::setup() {
             source => 'puppet:///modules/wikidata_test/static/simple-elements.xml';
     }
 
+    file {
+        "/usr/local/bin/foreachwiki":
+            ensure => present,
+            owner => 'root',
+            group => 'root',
+            mode => 0755,
+            source => 'puppet:///modules/wikidata_test/scripts/foreachwiki';
+    }
+
     define setupmainpage {
         exec { "create_mainpage_${title}":
             require => [ Exec["composer-update-WikidataBuild"], File["/srv/static/mainpage.txt"], File["/srv/scripts/mainpage.php"] ],
