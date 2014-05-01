@@ -69,7 +69,7 @@ class wikidata_test::setup() {
         exec { "populate_sites_${title}":
             require => [ Exec["rebuild_localisation"] ],
             cwd => "/srv/mediawiki/master",
-            command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki ${title}",
+            command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki ${title}  --strip-protocols --load-from http://meta.wikimedia.org/w/api.php",
             timeout => 600,
             logoutput => "on_failure";
         }
