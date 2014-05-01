@@ -77,28 +77,28 @@ class wikidata_test::setup() {
 
     populatesitestable { ['enwiki', 'enwikivoyage', 'enwikisource', 'wikidatawiki']: }
 
-    exec { "import_interlang":
-        require => [ Exec["rebuild_localisation"] ],
-        cwd => "/srv/mediawiki/master",
-        command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/importInterlang.php --wiki wikidatawiki --ignore-errors simple extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/simple-elements.csv",
-        timeout => 1800,
-        logoutput => "on_failure";
-    }
+#    exec { "import_interlang":
+#        require => [ Exec["rebuild_localisation"] ],
+#        cwd => "/srv/mediawiki/master",
+#        command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/importInterlang.php --wiki wikidatawiki --ignore-errors simple extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/simple-elements.csv",
+#        timeout => 1800,
+#        logoutput => "on_failure";
+#    }
 
-    exec { "import_properties":
-        require => [ Exec["import_interlang"] ],
-        cwd => "/srv/mediawiki/master",
-        command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/importProperties.php --wiki wikidatawiki en extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/en-elements-properties.csv",
-        timeout => 1800,
-        logoutput => "on_failure";
-    }
+#    exec { "import_properties":
+#        require => [ Exec["import_interlang"] ],
+#        cwd => "/srv/mediawiki/master",
+#        command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/importProperties.php --wiki wikidatawiki en extensions/WikidataBuild/extensions/Wikibase/repo/maintenance/en-elements-properties.csv",
+#        timeout => 1800,
+#        logoutput => "on_failure";
+#    }
 
-    exec { "import_elements":
-        require => [ File["/srv/static/simple-elements.xml"], Exec["import_properties"] ],
-        cwd => "/srv/mediawiki/master",
-        command => "/usr/bin/php maintenance/importDump.php --wiki enwiki /srv/static/simple-elements.xml",
-        timeout => 1800,
-        logoutput => "on_failure";
-    }
+#    exec { "import_elements":
+#        require => [ File["/srv/static/simple-elements.xml"], Exec["import_properties"] ],
+#        cwd => "/srv/mediawiki/master",
+#        command => "/usr/bin/php maintenance/importDump.php --wiki enwiki /srv/static/simple-elements.xml",
+#        timeout => 1800,
+#        logoutput => "on_failure";
+#    }
 
 }
