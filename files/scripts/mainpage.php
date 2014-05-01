@@ -11,7 +11,10 @@ class MainPageCreator extends Maintenance {
 	}
 
 	public function execute() {
-		$title = Title::newFromText( 'Main Page' );
+		global $wgDBname;
+
+		$titleText = $wgDBname === 'wikidatawiki' ? 'Wikidata:Main Page' : 'Main Page';
+		$title = Title::newFromText( $titleText );
 
 		if ( $title->exists() === false ) {
 		    $text = file_get_contents( __DIR__ . '/../static/mainpage.txt' );
