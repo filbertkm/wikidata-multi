@@ -17,6 +17,8 @@ if ( $wmgUseWikibaseRepo || $wmgUseWikibaseClient ) {
 }
 
 if ( $wmgUseWikibaseRepo ) {
+	$wgEnableWikibaseQuery = true;
+
 	if ( $wmgSingleInstance ) {
 		$baseNs = 120;
 
