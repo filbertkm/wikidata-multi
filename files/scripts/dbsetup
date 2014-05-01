@@ -18,12 +18,4 @@ for x in $DBLIST; do
 
 	/usr/bin/php /srv/mediawiki/$BRANCH/maintenance/update.php --wiki $x
 
-	if [ $(mysql -N -s -u root -D $x -e "select count(*) from sites") -eq 0 ]; then
-		/usr/bin/php /srv/mediawiki/$BRANCH/maintenance/runScript.php /srv/mediawiki/$BRANCH/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki $x
-	fi
-
-	if [ $(mysql -N -s -u root -D $x -e "select count(*) from interwiki") -eq 0 ]; then
-		   /usr/bin/php /srv/mediawiki/$BRANCH/maintenance/runScript.php /srv/mediawiki/$BRANCH/extensions/Wikibase/client/maintenance/populateInterwiki.php --wiki $x
-	fi	
-
 done

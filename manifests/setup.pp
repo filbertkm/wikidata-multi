@@ -65,17 +65,19 @@ class wikidata_test::setup() {
         logoutput => "on_failure";
     }
 
-    define populatesitestable {
-        exec { "populate_sites_${title}":
-            require => [ Exec["rebuild_localisation"] ],
-            cwd => "/srv/mediawiki/master",
-            command => "/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki ${title}  --strip-protocols --load-from http://meta.wikimedia.org/w/api.php",
-            timeout => 600,
-            logoutput => "on_failure";
-        }
+    file {
+        "/usr/local/bin/wikibasesetup":
+            ensure => present,
+            owner => 'root',
+            group => 'root',
+            mode => 0755,
+            source => 'puppet:///modules/wikidata_test/scripts/wikibasesetup';
     }
 
-    populatesitestable { ['enwiki', 'enwikivoyage', 'enwikisource', 'wikidatawiki']: }
+    exec { 'wikibasesetup':
+        require => [ File["/usr/local/bin/wikibasesetup"], File["/srv/config/all.dblist"] ],
+        command => "/usr/local/bin/wikibasesetup /srv/config/all.dblist master"
+    }
 
 #    exec { "import_interlang":
 #        require => [ Exec["rebuild_localisation"] ],
