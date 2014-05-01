@@ -13,19 +13,40 @@ class MainPageCreator extends Maintenance {
 	public function execute() {
 		global $wgDBname;
 
-		$titleText = $wgDBname === 'wikidatawiki' ? 'Wikidata:Main Page' : 'Main Page';
-		$title = Title::newFromText( $titleText );
+		if ( $wgDBname === 'wikidatawiki' ) {
+			$mainPageTitleText = 'Wikidata:Main Page';
+			$title = Title::newFromText( $mainPageTitleText );
+			$messageTitle = Title::newFromText( 'MediaWiki:Mainpage' );
+			$this->createPage( $messageTitle, $mainPageTitleText, 'create main page message' );
 
-		if ( $title->exists() === false ) {
-		    $text = file_get_contents( __DIR__ . '/../static/mainpage.txt' );
-		    $page = WikiPage::factory( $title );
-			$content = ContentHandler::makeContent( $text, $title );
-			$page->doEditContent( $content, 'create main page');
-
-			echo "created main page\n";
+			$sidebarTitle = Title::newFromText( 'MediaWiki:Sidebar' );
+			$text = file_get_contents( __DIR__ . '/../static/sidebar.txt' );
+			$this->createPage( $sidebarTitle, $text, 'create sidebar' );
 		} else {
-			echo "main page already exists\n";
+			$title = Title::newFromText( 'Main Page' );
 		}
+
+		$this->createMainPage( $title );
+	}
+
+	private function createMainPage( Title $title ) {
+		$text = file_get_contents( __DIR__ . '/../static/mainpage.txt' );
+	    	$this->createPage( $title, $text, 'create main page' );
+	}
+
+	private function createPage( Title $title, $text, $summary ) {
+                $titleText = $title->getPrefixedText();
+
+		if ( $title->exists() ) {
+			echo "$titleText page already exists.\n";
+			return;
+		}
+
+		$page = WikiPage::factory( $title );
+		$content = ContentHandler::makeContent( $text, $title );
+		$page->doEditContent( $content, $summary );
+
+		echo "created $titleText page.\n";
 	}
 
 }
