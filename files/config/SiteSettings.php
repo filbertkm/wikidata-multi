@@ -90,6 +90,10 @@ $wgConf->settings = array(
 		'default' => false,
 		'wikidatawiki' => true
 	),
+	'wmgUseWikibaseQuery' => array(
+		'default' => false,
+		'wikidatawiki' => true
+	),
 	'wmgUseWikibaseClient' => array(
 		'default' => true,
 		'wikidatawiki' => false

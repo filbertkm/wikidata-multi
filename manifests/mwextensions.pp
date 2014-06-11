@@ -21,7 +21,7 @@ class wikidata_test::mwextensions() {
         group => 'www-data',
         timeout => 200,
         require => git::clone['mwextensions'],
-        origin => 'https://github.com/filbertkm/WikidataBuild.git';
+        origin => 'https://github.com/wmde/WikidataBuildResources.git';
     }
 
     file {

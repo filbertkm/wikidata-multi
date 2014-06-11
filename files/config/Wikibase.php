@@ -17,8 +17,6 @@ if ( $wmgUseWikibaseRepo || $wmgUseWikibaseClient ) {
 }
 
 if ( $wmgUseWikibaseRepo ) {
-	require_once ( "$IP/extensions/WikidataBuild/extensions/Query/WikibaseQuery.php" );
-
 	if ( $wmgSingleInstance ) {
 		$baseNs = 120;
 
