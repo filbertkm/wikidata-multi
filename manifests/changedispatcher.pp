@@ -1,15 +1,15 @@
 class wikidata_test::changedispatcher() {
 
     file { "/var/log/wikidata":
-        owner => 'root',
-        group => 'www-data',
+        owner => 'mwdeploy',
+        group => 'mwdeploy',
         mode => 0755,
         ensure => directory,
     }
 
     cron { "cron-dispatchchanges":
         command => '/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/dispatchChanges.php --wiki wikidatawiki --max-time 900 --batch-size 200 --dispatch-interval 30 2>&1 >> /var/log/wikidata/dispatcher.log',
-        user    => 'root',
+        user    => 'mwdeploy',
         minute  => '*/4',
         ensure   => present;
     }
@@ -17,7 +17,7 @@ class wikidata_test::changedispatcher() {
     define runjobs {
         cron { "runjobs_${title}":
             command => "/usr/bin/php maintenance/runJobs.php --wiki ${title} 2>&1 >> /var/log/wikidata/runjobs-${title}",
-            user => 'root',
+            user => 'mwdeploy',
             minute => '*/5',
             ensure => present;
         }

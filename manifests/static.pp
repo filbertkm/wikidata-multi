@@ -2,8 +2,8 @@ class wikidata_test::static () {
 
     file {
         "/srv/static":
-            owner => 'root',
-            group => 'www-data',
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
             mode => 0755,
             ensure => directory;
     }

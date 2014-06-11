@@ -2,8 +2,8 @@ class wikidata_test::config() {
 
     file {
         "/srv/config":
-            owner => 'root',
-            group => 'www-data',
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
             mode => 0675,
             ensure => directory;
     }
@@ -14,8 +14,8 @@ class wikidata_test::config() {
     define configfiles {
         file { "/srv/config/${title}":
             ensure => present,
-            owner => 'root',
-            group => 'www-data',
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
             source => "puppet:///modules/wikidata_test/config/${title}";
         }
     }
@@ -31,8 +31,8 @@ class wikidata_test::config() {
     git::clone { 'mediawiki-config':
         ensure => present,
         directory => '/srv/mediawiki-config',
-        owner => 'root',
-        group => 'www-data',
+        owner => 'mwdeploy',
+        group => 'mwdeploy',
         branch => 'master',
         timeout => 1800,
         origin => 'https://gerrit.wikimedia.org/r/p/operations/mediawiki-config.git';

@@ -6,8 +6,8 @@ class wikidata_test::mwextensions() {
         ensure    => latest,
         directory => '/srv/mediawiki/extensions',
         branch => 'master',
-        owner => 'root',
-        group => 'www-data',
+        owner => 'mwdeploy',
+        group => 'mwdeploy',
         timeout => 1800,
         require => git::clone["mediawiki"],
         origin => 'https://gerrit.wikimedia.org/r/p/mediawiki/extensions.git';
@@ -17,8 +17,8 @@ class wikidata_test::mwextensions() {
         ensure => latest,
         directory => '/srv/mediawiki/extensions/WikidataBuild',
         branch => 'query',
-        owner => 'root',
-        group => 'www-data',
+        owner => 'mwdeploy',
+        group => 'mwdeploy',
         timeout => 200,
         require => git::clone['mwextensions'],
         origin => 'https://github.com/wmde/WikidataBuildResources.git';
@@ -28,8 +28,8 @@ class wikidata_test::mwextensions() {
         '/srv/mediawiki/master/extensions':
             ensure => 'link',
             force => true,
-            owner => 'root',
-            group => 'www-data',
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
             target => '/srv/mediawiki/extensions',
             require => git::clone["mwextensions"];
     }
@@ -37,7 +37,7 @@ class wikidata_test::mwextensions() {
     exec { 'git-submodule-update':
         cwd => '/srv/mediawiki/extensions',
         command => '/usr/bin/git submodule foreach git reset --hard HEAD && /usr/bin/git submodule update --init --recursive',
-        user => 'root',
+        user => 'mwdeploy',
         require => git::clone["mwextensions"],
         timeout => 1800;
     }
@@ -49,7 +49,7 @@ class wikidata_test::mwextensions() {
 
     exec { 'composer-self-update':
         command => '/usr/local/bin/composer self-update',
-        user => 'root',
+        user => 'mwdeploy',
         environment => [ "COMPOSER_HOME=/tmp/composer" ],
         require => file["/usr/local/bin/composer"];
     }
@@ -65,7 +65,7 @@ class wikidata_test::mwextensions() {
             cwd => "/srv/mediawiki/extensions/${title}",
             command => '/usr/local/bin/composer install --prefer-source',
             require => [ exec["composer-self-update"], file["/usr/local/bin/composer"], file["/srv/mediawiki/extensions/${title}/composer.lock"] ],
-            user => 'root',
+            user => 'mwdeploy',
             timeout => 1000;
         }
 
@@ -73,7 +73,7 @@ class wikidata_test::mwextensions() {
             cwd => "/srv/mediawiki/extensions/${title}",
             command => '/usr/local/bin/composer update --prefer-source',
             require => [ exec["composer-install-${title}"] ],
-            user => 'root',
+            user => 'mwdeploy',
             timeout => 1000;
         }
     }

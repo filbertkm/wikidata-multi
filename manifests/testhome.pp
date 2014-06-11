@@ -2,8 +2,8 @@ class wikidata_test::testhome() {
 
    file {
         "/srv/testhome":
-            owner => 'root',
-            group => 'www-data',
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
             mode => 0755,
             ensure => directory;
 
