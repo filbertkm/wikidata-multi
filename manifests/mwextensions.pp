@@ -42,9 +42,15 @@ class wikidata_test::mwextensions() {
         timeout => 1800;
     }
 
+    file {
+        '/tmp/composer':
+            ensure => 'directory';
+    }
+
     exec { 'composer-self-update':
         command => '/usr/local/bin/composer self-update',
         user => 'root',
+        environment => [ "COMPOSER_HOME=/tmp/composer" ],
         require => file["/usr/local/bin/composer"];
     }
 
