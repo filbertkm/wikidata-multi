@@ -1,4 +1,6 @@
-class wikidata_test::mediawiki() {
+class wikidata_test::mediawiki(
+    $base_dir
+) {
 
     if !defined(Class['webserver::php5']) {
         class {'webserver::php5':
@@ -6,28 +8,15 @@ class wikidata_test::mediawiki() {
         }
     }
 
-    require role::labs-mysql-server, webserver::php5-mysql, composer
+    require role::labs-mysql-server, webserver::php5-mysql
 
     package { [ 'imagemagick', 'php-apc', 'memcached' ] :
         ensure => latest,
     }
 
-    file {
-        "/srv/common":
-            owner => 'root',
-            group => 'root',
-            ensure => directory;
-    }
-
-    sudo_user { 'mwdeploy' :                                                                           
-        privileges => [                                                                                
-            'ALL = (apache,mwdeploy,www-data) NOPASSWD: ALL',                                        
-        ]                                                                                              
-    } 
-
     git::clone { 'mediawiki':
         ensure    => latest,
-        directory => '/srv/common/php-master',
+        directory => "${base_dir}/php-master",
         branch => 'master',
         owner => 'mwdeploy',
         group => 'mwdeploy',
@@ -36,13 +25,13 @@ class wikidata_test::mediawiki() {
     }
 
     file {
-        '/srv/mediawiki/master/static':
+        "${base_dir}/php-master/static":
             ensure => 'link',
-            target => '/srv/static';
+            target => "${base_dir}/static";
 
-        '/srv/mediawiki/master/LocalSettings.php':
+        "${base_dir}/php-master/LocalSettings.php":
             ensure => 'link',
-            target => '/srv/config/LocalSettings.php';
+            target => "${base_dir}/config/LocalSettings.php";
     }
 
     service { memcached:

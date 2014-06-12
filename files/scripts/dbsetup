@@ -13,8 +13,8 @@ for x in $DBLIST; do
 
 		echo "installing mediawiki schema\n"
 
-		mysql -u root -D $x < /srv/mediawiki/$BRANCH/maintenance/tables.sql
+		mysql -u root -D $x < /srv/common/php-$BRANCH/maintenance/tables.sql
 	fi
 
-	/usr/bin/php /srv/mediawiki/$BRANCH/maintenance/update.php --wiki $x
+	/usr/bin/php /srv/common/php-$BRANCH/maintenance/update.php --wiki $x
 done

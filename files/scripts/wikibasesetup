@@ -6,10 +6,10 @@ shift
 
 for x in $DBLIST; do
 	if [ $(mysql -N -s -u root -D $x -e "select count(*) from sites") -eq 0 ]; then
-		/usr/bin/php /srv/mediawiki/$BRANCH/maintenance/runScript.php /srv/mediawiki/$BRANCH/extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki $x --strip-protocols -load-from http://meta.wikimedia.org/w/api.php
+		/usr/bin/php /srv/common/php-$BRANCH/maintenance/runScript.php /srv/common/php-$BRANCH/extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki $x --strip-protocols -load-from http://meta.wikimedia.org/w/api.php
 	fi
 
 	if [ $(mysql -N -s -u root -D $x -e "select count(*) from interwiki") -eq 0 ]; then
-		/usr/bin/php /srv/mediawiki/$BRANCH/maintenance/runScript.php /srv/mediawiki/$BRANCH/extensions/WikidataBuild/extensions/Wikibase/client/maintenance/populateInterwiki.php --wiki $x
-	fi	
+		/usr/bin/php /srv/common/php-$BRANCH/maintenance/runScript.php /srv/common/php-$BRANCH/extensions/WikidataBuild/extensions/Wikibase/client/maintenance/populateInterwiki.php --wiki $x
+	fi
 done

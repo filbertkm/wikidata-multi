@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../mediawiki/master/maintenance/Maintenance.php';
+require_once __DIR__ . '/../php-master/maintenance/Maintenance.php';
 
 class MainPageCreator extends Maintenance {
 
@@ -31,11 +31,11 @@ class MainPageCreator extends Maintenance {
 
 	private function createMainPage( Title $title ) {
 		$text = file_get_contents( __DIR__ . '/../static/mainpage.txt' );
-	    	$this->createPage( $title, $text, 'create main page' );
+		$this->createPage( $title, $text, 'create main page' );
 	}
 
 	private function createPage( Title $title, $text, $summary ) {
-                $titleText = $title->getPrefixedText();
+		$titleText = $title->getPrefixedText();
 
 		if ( $title->exists() ) {
 			echo "$titleText page already exists.\n";

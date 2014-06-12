@@ -1,14 +1,14 @@
 <VirtualHost *:80>
     ServerName wikidata-test.wikimedia.de
 
-    DocumentRoot /srv/testhome/
+    DocumentRoot /srv/common/testhome/
 
     <Directory />
         Options FollowSymLinks
         AllowOverride all
     </Directory>
 
-    <Directory /srv/testhome/>
+    <Directory /srv/common/testhome/>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride all
         Order allow,deny

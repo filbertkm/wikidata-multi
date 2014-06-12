@@ -1,4 +1,6 @@
-class wikidata_test::changedispatcher() {
+class wikidata_test::changedispatcher(
+    $base_dir
+) {
 
     file { "/var/log/wikidata":
         owner => 'mwdeploy',
@@ -8,21 +10,25 @@ class wikidata_test::changedispatcher() {
     }
 
     cron { "cron-dispatchchanges":
-        command => '/usr/bin/php maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/dispatchChanges.php --wiki wikidatawiki --max-time 900 --batch-size 200 --dispatch-interval 30 2>&1 >> /var/log/wikidata/dispatcher.log',
+        command => "/usr/bin/php ${base_dir}/maintenance/runScript.php extensions/WikidataBuild/extensions/Wikibase/lib/maintenance/dispatchChanges.php --wiki wikidatawiki --max-time 900 --batch-size 200 --dispatch-interval 30 2>&1 >> /var/log/wikidata/dispatcher.log",
         user    => 'mwdeploy',
         minute  => '*/4',
         ensure   => present;
     }
 
-    define runjobs {
+    define runjobs(
+        $base_dir
+    ) {
         cron { "runjobs_${title}":
-            command => "/usr/bin/php maintenance/runJobs.php --wiki ${title} 2>&1 >> /var/log/wikidata/runjobs-${title}",
+            command => "/usr/bin/php ${base_dir}/maintenance/runJobs.php --wiki ${title} 2>&1 >> /var/log/wikidata/runjobs-${title}",
             user => 'mwdeploy',
             minute => '*/5',
             ensure => present;
         }
     }
 
-    runjobs { ['enwiki', 'enwikivoyage', 'enwikisource']: }
+    runjobs { ['enwiki', 'enwikivoyage', 'enwikisource']:
+        base_dir => $base_dir;
+    }
 
 }
