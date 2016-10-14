@@ -72,18 +72,14 @@ $wgGroupPermissions['user']['createaccount'] = true;
 $wgDeprecationReleaseLimit = '1.22';
 
 if ( $wmgDebugMode ) {
-	require_once ( "/srv/config/DebugSettings.php" );
+	require_once ( "/srv/common/config/DebugSettings.php" );
 }
 
-require_once ( "/srv/config/ExtensionSettings.php" );
-require_once ( "/srv/config/Wikibase.php" );
+require_once ( "/srv/common/config/ExtensionSettings.php" );
+require_once ( "/srv/common/config/Wikibase.php" );
 
-if ( $wmgUseWikibaseBuild ) {
-	$wgExtensionEntryPointListFiles[] = "/srv/mediawiki-config/wmf-config/extension-list-wikidata-labs";
-} else {
-	$wgExtensionEntryPointListFiles[] = "/srv/config/extension-list-wikidata";
-}
+$wgExtensionEntryPointListFiles[] = "/srv/common/extensions/WikidataBuild/extension-list-wikidata";
 
-if ( file_exists( "/srv/config/ExtensionMessages.php" ) ) {
-	require_once( "/srv/config/ExtensionMessages.php" );
+if ( file_exists( "/srv/common/config/ExtensionMessages.php" ) ) {
+	require_once( "/srv/common/config/ExtensionMessages.php" );
 }

@@ -33,4 +33,4 @@ if ( PHP_SAPI === 'cli' ) {
 	}
 }
 
-require_once ( "/srv/config/CommonSettings.php" );
+require_once ( "/srv/common/config/CommonSettings.php" );

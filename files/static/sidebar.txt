@@ -1,0 +1,7 @@
+* navigation
+** mainpage|mainpage-description
+** special-newitem-url|special-newitem
+** special-itembytitle-url|special-itembytitle
+** recentchanges-url|recentchanges
+** randompage-url|randompage
+** wdhelppage|help

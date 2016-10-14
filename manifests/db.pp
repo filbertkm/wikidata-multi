@@ -1,9 +1,11 @@
-class wikidata_test::db() {
+class wikidata_test::db(
+    $base_dir
+) {
 
     require wikidata_test::config
 
     file {
-        "/srv/config/all.dblist":
+        "${base_dir}/config/all.dblist":
             ensure => present,
             source => 'puppet:///modules/wikidata_test/config/all.dblist';
 
@@ -16,8 +18,8 @@ class wikidata_test::db() {
     }
 
     exec { 'dbsetup':
-        require => [ File["/usr/local/bin/dbsetup"], File["/srv/config/all.dblist"] ],
-        command => "/usr/local/bin/dbsetup /srv/config/all.dblist master"
+        require => [ File["/usr/local/bin/dbsetup"], File["${base_dir}/config/all.dblist"] ],
+        command => "/usr/local/bin/dbsetup ${base_dir}/config/all.dblist master"
     }
 
 }

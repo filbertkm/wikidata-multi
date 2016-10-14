@@ -11,14 +11,12 @@ if ( $wmgUseWikibaseRepo || $wmgUseWikibaseClient ) {
 
 	if ( $wmgUseWikibaseBuild ) {
 		require_once ( "$IP/extensions/Wikidata/Wikidata.php" );
+	} else {
+		require_once ( "$IP/extensions/WikidataBuild/Wikidata.php" );
 	}
 }
 
 if ( $wmgUseWikibaseRepo ) {
-	if ( !$wmgUseWikibaseBuild ) {
-		require_once ( "$IP/extensions/Wikibase/repo/Wikibase.php" );
-	}
-
 	if ( $wmgSingleInstance ) {
 		$baseNs = 120;
 
@@ -95,10 +93,6 @@ if ( $wmgUseWikibaseRepo ) {
 }
 
 if ( $wmgUseWikibaseClient ) {
-	if ( !$wmgUseWikibaseBuild ) {
-		require_once ( "$IP/extensions/Wikibase/client/WikibaseClient.php" );
-	}
-
 	$wgWBClientSettings['repoUrl'] = $wmgSingleInstance ? $wgServer : "https://wikidata-dev-repo.wmflabs.org";
 	$wgWBClientSettings['repoScriptPath'] = $wgScriptPath;
 	$wgWBClientSettings['repoArticlePath'] = $wgArticlePath;

@@ -1,35 +1,49 @@
-class wikidata_test::config() {
+class wikidata_test::config(
+    $base_dir
+) {
+
+    sudo_user { 'mwdeploy' :
+        privileges => [
+            'ALL = (apache,mwdeploy,www-data) NOPASSWD: ALL',
+        ]
+    }
 
     file {
-        "/srv/config":
+        "${base_dir}/config":
             owner => 'mwdeploy',
-            group => 'root',
-            mode => 0664,
+            group => 'mwdeploy',
+            mode => 0675,
             ensure => directory;
     }
 
     $configs = ['CommonSettings.php', 'DebugSettings.php', 'SiteSettings.php',
-'ExtensionSettings.php', 'flaggedrevs.php', 'DBSettings.php', 'Wikibase.php', 'extension-list-wikidata']
+'ExtensionSettings.php', 'flaggedrevs.php', 'DBSettings.php', 'Wikibase.php']
 
-    define configfiles {
-        file { "/srv/config/${title}":
+    define configfiles(
+        $base_dir
+    ) {
+        file { "${base_dir}/config/${title}":
             ensure => present,
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
             source => "puppet:///modules/wikidata_test/config/${title}";
         }
     }
 
-    configfiles { $configs: }
+    configfiles { $configs:
+        base_dir => $base_dir;
+    }
 
     file {
-        '/srv/config/LocalSettings.php':
+        "${base_dir}/config/LocalSettings.php":
             ensure => present,
             source => 'puppet:///modules/wikidata_test/config/LocalSettings.php';
     }
 
     git::clone { 'mediawiki-config':
-        ensure => present,
-        directory => '/srv/mediawiki-config',
-        owner => 'root',
+        ensure => latest,
+        directory => "${base_dir}/mediawiki-config",
+        owner => 'mwdeploy',
         group => 'mwdeploy',
         branch => 'master',
         timeout => 1800,

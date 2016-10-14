@@ -1,59 +1,47 @@
-class wikidata_test::mwextensions() {
+class wikidata_test::mwextensions(
+    $base_dir,
+) {
 
     require wikidata_test::mediawiki
 
     git::clone { 'mwextensions':
         ensure    => latest,
-        directory => '/srv/mediawiki/extensions',
+        directory => "${base_dir}/extensions",
         branch => 'master',
         owner => 'mwdeploy',
-        group => 'www-data',
+        group => 'mwdeploy',
         timeout => 1800,
         require => git::clone["mediawiki"],
         origin => 'https://gerrit.wikimedia.org/r/p/mediawiki/extensions.git';
     }
 
+    git::clone { 'wikidatagit':
+        ensure => latest,
+        directory => "${base_dir}/extensions/WikidataBuild",
+        branch => 'demosystem',
+        owner => 'mwdeploy',
+        group => 'mwdeploy',
+        timeout => 200,
+        require => git::clone['mwextensions'],
+        origin => 'https://github.com/wmde/WikidataBuildResources.git';
+    }
+
     file {
-        '/srv/mediawiki/master/extensions':
+        "${base_dir}/php-master/extensions":
             ensure => 'link',
             force => true,
-            owner => 'root',
-            group => 'www-data',
-            target => '/srv/mediawiki/extensions',
+            owner => 'mwdeploy',
+            group => 'mwdeploy',
+            target => "${base_dir}/extensions",
             require => git::clone["mwextensions"];
     }
 
     exec { 'git-submodule-update':
-        cwd => '/srv/mediawiki/extensions',
-        command => '/usr/bin/git submodule update --init --recursive',
-        user => 'root',
+        cwd => "${base_dir}/extensions",
+        command => '/usr/bin/git submodule foreach git reset --hard HEAD && /usr/bin/git submodule update --init --recursive',
+        user => 'mwdeploy',
         require => git::clone["mwextensions"],
         timeout => 1800;
     }
 
-    exec { 'composer-self-update':
-        command => '/usr/local/bin/composer self-update',
-        user => 'root',
-        require => file["/usr/local/bin/composer"];
-    }
-
-    define wikidata_test::composer-update () {
-        exec { "composer-install-${title}":
-            cwd => "/srv/mediawiki/extensions/${title}",
-            command => '/usr/local/bin/composer install --prefer-source',
-            require => [ exec["git-submodule-update", "composer-self-update"], file["/usr/local/bin/composer"] ],
-            user => 'root',
-            timeout => 1000;
-        }
-
-        exec { "composer-update-${title}":
-            cwd => "/srv/mediawiki/extensions/${title}",
-            command => '/usr/local/bin/composer update --prefer-source',
-            require => [ exec["composer-install-${title}"] ],
-            user => 'root',
-            timeout => 1000;
-        }
-    }
-
-    wikidata_test::composer-update{ ['Wikibase']: }
 }

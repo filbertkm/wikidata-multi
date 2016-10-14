@@ -1,19 +1,19 @@
 <VirtualHost *:80>
     ServerName wikidata-dev-enwiki.wikimedia.de
-	ServerAlias wikidata-dev-enwiki.wmflabs.org
+    ServerAlias wikidata-dev-enwiki.wmflabs.org
     ServerAlias wikidata-dev-client.wmflabs.org
 
-    DocumentRoot /srv/mediawiki/master/
+    DocumentRoot /srv/common/php-master/
 
     # MediaWiki!
-    Alias /wiki /srv/mediawiki/master/index.php
+    Alias /wiki /srv/common/php-master/index.php
 
     <Directory />
         Options FollowSymLinks
         AllowOverride all
     </Directory>
 
-    <Directory /srv/mediawiki/master/>
+    <Directory /srv/common/php-master/>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride all
         Order allow,deny
